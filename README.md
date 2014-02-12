@@ -10,4 +10,13 @@ STATSketball is a web based stat keeping software for basketball games. This is 
 
 ##Running the application
 
-This is currently a concept, implementation to come.
+In the project directory on the command line, enter the following command
+
+'meteor'
+
+## Active TODO
+
+* Establish Database Structure
+* Home Screen
+* Stat Sheet Traker
+* Team Maker
