@@ -1,20 +1,45 @@
+Teams = new Meteor.Collection("teams");
+
 if (Meteor.isClient) {
-  Template.hello.greeting = function () {
-    return "The Missing Meteor Tutorial!!!";
+
+  Template.addTeam.teams = function(){
+    return Teams.find({});
   };
 
-  Template.hello.events({
-    'click input' : function () {
-      // template data, if any, is available in 'this'
-      if (typeof console !== 'undefined')
-        console.log("You pressed the button");
-    }
+  
+  var render = Meteor.render(function(){
+    return Template['addTeam'];
   });
-}
+
+  if(Meteor.userId() !== null){
+    $('#main').html(render);
+  }
+
+ 
+  
+};
 
 if (Meteor.isServer) {
-  Meteor.startup(function () {
-    // code to run on server at startup
-  });
-}
+ 
+    Teams.allow({
+      'insert': function (userId,doc) {
+        /* user and doc checks ,
+        return true to allow insert */
+        return true; 
+      },
+      'remove': function (userId,doc) {
+        /* user and doc checks ,
+        return true to allow insert */
+        return true; 
+      },
+      'update': function (userId,doc) {
+        /* user and doc checks ,
+        return true to allow insert */
+        return true; 
+      },
+    });
+
+};
+
+
 
