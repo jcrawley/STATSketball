@@ -3,17 +3,15 @@ Teams = new Meteor.Collection("teams");
 if (Meteor.isClient) {
 
   Template.addTeam.teams = function(){
-    return Teams.find({});
+    return Teams.find();
   };
 
-  
-  var render = Meteor.render(function(){
-    return Template['addTeam'];
+  $("tr").click(function(){
+    console.log("hi");
   });
 
-  if(Meteor.userId() !== null){
-    $('#main').html(render);
-  }
+
+  console.log(Meteor.userId());
 
  
   
