@@ -18,14 +18,30 @@
           </ul>
         </div>
       </div>
+  </div>
  
-</div>
- 
-    <div class="container" id="main">
-        
-        {{> addTeam}}
+  <div class="jumbotron">
+      <h1>Choose one of your teams</h1>
+
+      <p>or create a new one</p>
+  </div>
+
+  <div class = "row">
+    <div class = "col-md-6">
+
+      <table class="table-hover" id = 'teams'>
+
+      <tr><td><div id = 'new-team' class = "team"><h3> Create a New Team </h3></div></td></tr>
+
+      </table>
 
     </div>
+
+    <div class = "col-md-6" id="team-box"></div>
+
+    </div>
+
+  </div>
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
 </body>
@@ -45,31 +61,7 @@
 
 <template name="addTeam">
 
-  <div class="jumbotron">
-    <h1>Choose one of your teams</h1>
-
-    <p>or create a new one</p>
-  </div>
-
-  <div class = "row">
-
-    <div class = ".col-md-12">
-
-      <table class="table-hover">
-
-      {{#each teams}}
-        
-          <tr id = {{_id}} class = "team" ><td> <h3>{{name}} </h3></td></tr>
-        
-      {{/each}}
-
-      <tr><td><div id = 'new-team' class = "team"> <h3> Create a New Team </h3></div></td></tr>
-
-      </table>
-
-    </div>
-
-  </div>
+  
 
 </template>
 
