@@ -12,3 +12,23 @@ div{
 table{
 	width: 100%;
 }
+#signed-in{
+	display: none;
+}
+#not-signed-in{
+	display: none;
+}
+.panel-body{
+	background-color: white;
+}
+.new-team-choice{
+	margin: 10px;
+	padding: 5px;
+}
+.new-team-choice:hover{
+	background-color: orange;
+}
+#new-team-details{
+	/*display: none;*/
+
+}

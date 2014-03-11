@@ -4,44 +4,111 @@
  </head>
  
 <body>
- 
+
     <div class="navbar navbar-static-top navbar-inverse">
  
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="/">Statsketball</a>
+          <ul class = 'nav'>
           <li><a href="#" id = 'my-games'>My Games</a></li>
+          </ul>
           <ul class="nav pull-right">
             <li>
               {{loginButtons}}
             </li>
           </ul>
+          
         </div>
       </div>
   </div>
+
+  <div id = 'signed-in' class = 'container'>
  
-  <div class="jumbotron">
-      <h1>Choose one of your teams</h1>
+    <div class="jumbotron">
+        <h1>Choose one of your teams</h1>
 
-      <p>or create a new one</p>
-  </div>
-
-  <div class = "row">
-    <div class = "col-md-6">
-
-      <table class="table-hover" id = 'teams'>
-
-      <tr><td><div id = 'new-team' class = "team"><h3> Create a New Team </h3></div></td></tr>
-
-      </table>
-
+        <p>or create a new one</p>
     </div>
 
-    <div class = "col-md-6" id="team-box"></div>
+    
 
-    </div>
+    <div class = "row">
+      <div class = "col-md-6">
+
+        <table class="table-hover" id = 'teams'>
+
+        <tr><td><div id = 'new-team' class = "team"><h3> Create a New Team </h3></div></td></tr>
+
+        </table>
+
+      </div>
+
+      <div class = "col-md-6" id="team-box"></div>
+
+      </div>
 
   </div>
+
+  <div class="container" id = 'not-signed-in'>
+    <div class="row">
+        <div class="jumbotron">
+            <h1>STATSketball</h1>
+            <div class="well">
+                <h4>Sign in using Twitter to start keeping stats</h4>
+                {{loginButtons}}
+            </div>
+        </div>
+    </div>
+  </div>
+
+  <div class = "container" id = "new-team">
+    <div class = "row">
+      <div class = "col-md-6">
+        <div id = 'team-info' class = 'new-team-choice'>
+          <h3>Team Info</h3>
+
+        </div>
+
+        <div id = 'add-player' class = 'new-team-choice'>
+          <h3>Add Player</h3>
+        </div>
+        <div id = 'remove-player' class = 'new-team-choice'>
+          <h3>Remove Player</h3>
+        </div>
+
+        <button type="button" class="btn btn-primary btn-lg" id="make-team-button">Make Team</button>
+
+
+      </div>
+
+      <div class = "col-md-6" id="new-team-details">
+          <h2>Team Name</h2>
+          <input type="text" placeholder="Team Name" id='team-name-input'></input>
+          <h2>Team Location</h2>
+          <input type="text" placeholder="San Francisco" id='team-location-input'></input>
+          <h2>League Name</h2>
+          <input type="text" placeholder="WCC" id='team-league-input'></input>
+
+      </div>
+
+      <div class = "col-md-6" id="new-player-details">
+          <h2>Player Name</h2>
+          <input type="text" placeholder="Michael Jordan" id='player-name-input'></input>
+          <h2>Number</h2>
+          <input type="text" placeholder="23" id='player-number-input'></input>
+          <h2>Height</h2>
+          <input type="text" placeholder="6'6" id='player-height-input'></input><br>
+          <button type="button" class="btn btn-primary btn-lg" id="add-player-button">Add Player</button>
+      </div>
+
+    </div>
+  </div>
+
+    
+
+
+
     <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
 
 </body>
@@ -59,7 +126,7 @@
     </div>
 </template>
 
-<template name="addTeam">
+<template name="addPlayer">
 
   
 
