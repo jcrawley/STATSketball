@@ -12,9 +12,6 @@ if (Meteor.isClient) {
       $("#not-signed-in").css("display", "auto");
     }*/
     var chosenTeams = [];
-    Template.addPlayer.players = function(){
-      return Teams.find();
-    };
 
     var teamChoices = Teams.find().fetch();
 
@@ -78,6 +75,21 @@ if (Meteor.isClient) {
 
     });
 
+    $('#make-team-button').click(function(){
+      if($("#team-name-input").val().length === 0 || $("#team-league-input").val().length === 0 || $("#team-location-input").val().length === 0){
+        alert("Need to fill out all team info");
+      }
+      else{
+        var newTeamId = Teams.insert({name: $("#team-name-input").val(), league: $("#team-league-input").val(), location: $("#team-location-input").val()});
+        console.log(newTeamId);
+
+        pendingPlayers.forEach(function(element,index,array){
+          Players.insert({name: element[0], number: element[1], height: element[2], team: newTeamId});
+        });
+
+      }
+    })
+
   });
 
 
@@ -104,6 +116,14 @@ if (Meteor.isServer) {
         return true to allow insert */
         return true; 
       },
+    });
+
+    Players.allow({
+      'insert': function (userId,doc) {
+        /* user and doc checks ,
+        return true to allow insert */
+        return true; 
+      }
     });
 
 };
