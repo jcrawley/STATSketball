@@ -14,11 +14,9 @@ if (Meteor.isClient) {
     $("#new-team-interface").css('display', 'none');
     var chosenTeams = [];
 
-    var teamChoices = Teams.find().fetch();
-
-    
-
     var addTeamsToTable = function(){
+      var teamChoices = Teams.find().fetch();
+      $("#teams").find("tr:gt(0)").remove();
       
       teamChoices.forEach(function(element,index,array){
 
@@ -27,7 +25,7 @@ if (Meteor.isClient) {
 
       });
     }
-    addTeamsToTable(teamChoices);
+    addTeamsToTable();
 
     $('.team').click(function(){
 
@@ -44,7 +42,14 @@ if (Meteor.isClient) {
         $('#new-player-details').css('display', 'none');
       }
       else{
-        $("#team-box").append("<h2>" + team.name+ "</h2>");
+        if(chosenTeams.length < 2 && jQuery.inArray(teamID,chosenTeams) === -1){
+          $("#team-box").append("<h2>" + team.name+ "</h2>");
+        
+          chosenTeams.push(teamID);
+        }
+        if(chosenTeams.length == 2){
+          $("#team-box").append("<button type='button' class='btn btn-primary btn-lg' id='start-statsheet-button'>Start Statsheet</button>");
+        }
       }
 
     });
