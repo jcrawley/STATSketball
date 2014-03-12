@@ -13,13 +13,13 @@ table{
 	width: 100%;
 }
 #signed-in{
-	display: none;
+	/*display: none;*/
 }
 #not-signed-in{
-	display: none;
+	/*display: none;*/
 }
 .panel-body{
-	background-color: white;
+	/*background-color: white;*/
 }
 .new-team-choice{
 	margin: 10px;

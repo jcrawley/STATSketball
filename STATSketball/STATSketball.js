@@ -3,23 +3,31 @@ Players = new Meteor.Collection("players");
 
 if (Meteor.isClient) {
   Meteor.startup(function(){
-   /* if(Meteor.userId() !== null){
+   if(Meteor.userId() !== null){
       $("#not-signed-in").css("display", "none");
       $("#signed-in").css("display", "auto");
     }
     else{
       $("#signed-in").css("display", "none");
       $("#not-signed-in").css("display", "auto");
-    }*/
+    }
+    $("#new-team-interface").css('display', 'none');
     var chosenTeams = [];
 
     var teamChoices = Teams.find().fetch();
 
-    teamChoices.forEach(function(element,index,array){
+    
+
+    var addTeamsToTable = function(){
+      
+      teamChoices.forEach(function(element,index,array){
+
 
         $('#teams > tbody:last').append(("<tr class = 'team' id = '" + element["_id"] + "'><td><h3>" + element.name + '</h3></td></tr>'));
 
-    });
+      });
+    }
+    addTeamsToTable(teamChoices);
 
     $('.team').click(function(){
 
@@ -31,7 +39,9 @@ if (Meteor.isClient) {
       console.log(team);
 
       if(teamID === 'new-team'){
-        console.log(true);
+        $("#new-team-interface").css('display', 'auto');
+        $("#signed-in").css("display", "none");
+        $('#new-player-details').css('display', 'none');
       }
       else{
         $("#team-box").append("<h2>" + team.name+ "</h2>");
@@ -86,6 +96,16 @@ if (Meteor.isClient) {
         pendingPlayers.forEach(function(element,index,array){
           Players.insert({name: element[0], number: element[1], height: element[2], team: newTeamId});
         });
+
+
+        $("#new-team-interface").css('display', 'none');
+        $("#signed-in").css("display", "auto");
+        $('#new-team-details').css('display', 'auto');
+        $('#new-player-details').css('display', 'none');
+
+        addTeamsToTable();
+
+
 
       }
     })
