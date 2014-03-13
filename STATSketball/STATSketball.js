@@ -1,5 +1,6 @@
 Teams = new Meteor.Collection("teams");
 Players = new Meteor.Collection("players");
+Statline = new Meteor.Collection("statline");
 
 if (Meteor.isClient) {
   Meteor.startup(function(){
@@ -12,6 +13,7 @@ if (Meteor.isClient) {
       $("#not-signed-in").css("display", "auto");
     }
     $("#new-team-interface").css('display', 'none');
+    $("#start-statsheet-button").css('display', 'none');
     var chosenTeams = [];
 
     var addTeamsToTable = function(){
@@ -43,12 +45,17 @@ if (Meteor.isClient) {
       }
       else{
         if(chosenTeams.length < 2 && jQuery.inArray(teamID,chosenTeams) === -1){
-          $("#team-box").append("<h2>" + team.name+ "</h2>");
+          $("#team-box").prepend("<h2>" + team.name+ "</h2>");
         
           chosenTeams.push(teamID);
         }
+        var buttonThere = false;
         if(chosenTeams.length == 2){
-          $("#team-box").append("<button type='button' class='btn btn-primary btn-lg' id='start-statsheet-button'>Start Statsheet</button>");
+          if(!buttonThere){
+            $("#start-statsheet-button").css('display', 'auto');
+            
+            buttonThere = true;
+          }
         }
       }
 
@@ -110,10 +117,62 @@ if (Meteor.isClient) {
 
         addTeamsToTable();
 
-
-
       }
-    })
+    });
+
+    $(".sortable").sortable();
+
+    $("#start-statsheet-button").click(function(){
+        var team1 = Teams.find({_id:chosenTeams[0]}).fetch()[0];
+        var team2 = Teams.find({_id:chosenTeams[1]}).fetch()[0];
+
+        console.log(team1);
+
+        var team1Players = Players.find({team:chosenTeams[0]});
+        var team2Players = Players.find({team:chosenTeams[1]});
+
+        var formatStatsheet = function(playerArray, side){
+          playerArray.forEach(function(element,index,array){
+                    
+            var playerLine = [];
+            //beginning of list
+            playerLine.push("<li id = 'player-stat'> <ul class = 'list-inline'>");
+            //player Number
+            playerLine.push("<li>" + element.number + "</li>");
+            //player Name
+            playerLine.push("<li>" + element.name + "</li>");
+            //2PTM Decrease - Value - Increase
+            playerLine.push(" <li> 2PTM </li> <li> <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-2PTM'>-</button>");
+            playerLine.push("</li>" + "<li><span id = '2PTM-value-" + element._id + "' class = 'stat-count'>0</span> </li>");
+            playerLine.push("<li> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-2PTM'>+</button>");
+            
+            //2PTA Decrease - Value - Increase
+            playerLine.push("<div><li> 2PTA </li> <li> <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-2PTA'>-</button>");
+            playerLine.push("</li>" + "<li><span id = '2PTA-value-" + element._id + "' class = 'stat-count'>0</span> </li>");
+            playerLine.push("<li> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-2PTA'>+</button>");
+            
+            
+            $("#" + side).append( playerLine.join(" ") );
+
+
+          });
+        };
+
+        formatStatsheet(team1Players, "team-1-players");
+
+        $(".counter").click(function(event){
+            var ids = $(event.target).attr('id').split("-");
+
+            $("#" + ids[2] + "-value-" + ids[0]).html(parseInt($("#" + ids[2] + "-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
+
+            if(parseInt($("#" + ids[2] + "-value-" + ids[0]).html()) < 0){
+              $("#" + ids[2] + "-value-" + ids[0]).html(0);
+            }
+        });
+
+    });
+
+
 
   });
 
