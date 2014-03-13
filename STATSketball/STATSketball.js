@@ -136,20 +136,60 @@ if (Meteor.isClient) {
                     
             var playerLine = [];
             //beginning of list
-            playerLine.push("<li id = 'player-stat'> <ul class = 'list-inline'>");
+            playerLine.push("<li class = 'player-stat'> <div class='row'>");
             //player Number
-            playerLine.push("<li>" + element.number + "</li>");
+            playerLine.push("<div class='col-md-1'>" + element.number + "</div>");
             //player Name
-            playerLine.push("<li>" + element.name + "</li>");
-            //2PTM Decrease - Value - Increase
-            playerLine.push(" <li> 2PTM </li> <li> <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-2PTM'>-</button>");
-            playerLine.push("</li>" + "<li><span id = '2PTM-value-" + element._id + "' class = 'stat-count'>0</span> </li>");
-            playerLine.push("<li> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-2PTM'>+</button>");
+            playerLine.push("<div class='col-md-2'>" + element.name + "</div>");
+            //category Tab
+            playerLine.push("<div class='col-md-1'>");
+            playerLine.push("<div class = 'stat-category'>2PTM</div>");
+            playerLine.push("<div class = 'stat-category'>2PTA</div>");
+            playerLine.push("<div class = 'stat-category'>OREB</div>");
+            playerLine.push("<div class = 'stat-category'>DREB</div>");
+            playerLine.push("</div>");
+
+
+            playerLine.push("<div class='col-md-3'><div>" + " <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-2PTM'>+</button>");
+            playerLine.push("<span id = '2PTM-value-" + element._id + "' class = 'stat-count'>0</span>");
+            playerLine.push("<button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-2PTM'>-</button></div>");
+            // playerLine.push("</div>");
             
             //2PTA Decrease - Value - Increase
-            playerLine.push("<div><li> 2PTA </li> <li> <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-2PTA'>-</button>");
-            playerLine.push("</li>" + "<li><span id = '2PTA-value-" + element._id + "' class = 'stat-count'>0</span> </li>");
-            playerLine.push("<li> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-2PTA'>+</button>");
+            playerLine.push("<div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-2PTA'>+</button>");
+            playerLine.push("<span id = '2PTA-value-" + element._id + "' class = 'stat-count'>0</span>");
+            playerLine.push("<button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-2PTA'>-</button></div>");
+            
+
+            playerLine.push("<div>"  + " <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-OREB'>+</button>");
+            playerLine.push("<span id = 'OREB-value-" + element._id + "' class = 'stat-count'>0</span>");
+            playerLine.push("<button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-OREB'>-</button></div>");
+            
+            //2PTA Decrease - Value - Increase
+            playerLine.push("<div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-DREB'>+</button>");
+            playerLine.push("<span id = 'DREB-value-" + element._id + "' class = 'stat-count'>0</span>");
+            playerLine.push("<button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-DREB'>-</button></div>");
+            
+
+            playerLine.push("</div>");
+
+            playerLine.push("<div class='col-md-3'><div>" + "3PTM" + " <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-3PTM'>+</button>");
+            playerLine.push("<span id = '3PTM-value-" + element._id + "' class = 'stat-count'>0</span>");
+            playerLine.push("<button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-3PTM'>-</button></div>");
+            // playerLine.push("</div>");
+            
+            //2PTA Decrease - Value - Increase
+            playerLine.push("<div> 3PTA: <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '" + element._id + "-plus-3PTA'>+</button>");
+            playerLine.push("<span id = '3PTA-value-" + element._id + "' class = 'stat-count'>0</span>");
+            playerLine.push("<button type='button' class='counter minus-points btn btn-primary btn-xs' id = '" + element._id + "-minus-3PTA'>-</button></div>");
+            playerLine.push("</div>");
+
+            
+
+            //Total PTS, calculated automatically
+
+            playerLine.push("<div class='col-md-2'>PTS: " + "<span id = 'PTS-value-" + element._id + "' class = 'stat-count'>0</span> </div>");
+
             
             
             $("#" + side).append( playerLine.join(" ") );
@@ -168,6 +208,15 @@ if (Meteor.isClient) {
             if(parseInt($("#" + ids[2] + "-value-" + ids[0]).html()) < 0){
               $("#" + ids[2] + "-value-" + ids[0]).html(0);
             }
+
+            if(ids[2].indexOf("PT") !== -1){
+              $("#" + "PTS" + "-value-" + ids[0]).html(parseInt($("#" + "2PTM" + "-value-" + ids[0]).html()) * 2 + parseInt($("#" + "3PTM" + "-value-" + ids[0]).html()) * 3);
+            }
+            
+
+
+
+
         });
 
     });

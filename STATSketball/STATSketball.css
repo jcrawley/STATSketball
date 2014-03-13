@@ -36,3 +36,11 @@ table{
 #start-statsheet-button{
 	/*display: none;*/
 }
+
+.player-stat{
+	margin: 5px;
+}
+
+.player-stat div{
+	margin: 5px;
+}
