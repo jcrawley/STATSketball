@@ -1,6 +1,7 @@
 <head>
   <title>Statsketball</title>
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="STATSketball.css">
   <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
  </head>
  
@@ -11,9 +12,6 @@
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="/">Statsketball</a>
-          <ul class = 'nav'>
-          <li><a href="#" id = 'my-games'>My Games</a></li>
-          </ul>
           <ul class="nav pull-right">
             <li>
               {{loginButtons}}
@@ -111,20 +109,18 @@
   <div class = 'container' id = 'new-statsheet'>
     <div class = "row">
       <div class = "col-md-6">
+        <div id = 'team-1-players-name'></div>
         <ul class = 'sortable list-unstyled' id = 'team-1-players'>
-
-
-
 
         </ul>
           
-        </table>
 
       </div>
       <div class = "col-md-6">
-        <table class="table table-striped">
+        <div id = 'team-2-players-name'></div>
+        <ul class = 'sortable list-unstyled' id = 'team-2-players'>
 
-        </table>
+        </ul>
 
       </div>
     </div>
