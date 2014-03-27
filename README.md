@@ -14,6 +14,8 @@ In the project directory on the command line, enter the following command
 
 'meteor'
 
+https://docs.google.com/presentation/d/168UJUkVhep3rj7IK2FbsywPYQP74rJCWIlmhExUAX2U/edit?usp=sharing
+
 ## Active TODO
 
 * Establish Database Structure
