@@ -5,8 +5,8 @@
 
 standard-app-packages
 autopublish
-preserve-inputs
 bootstrap
 accounts-ui
 accounts-twitter
 jquery
+jquery-ui-bootstrap

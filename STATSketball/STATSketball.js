@@ -5,27 +5,33 @@ Games = new Meteor.Collection("game");
 
 if (Meteor.isClient) {
   Meteor.startup(function(){
+    
    if(Meteor.userId() !== null){
       $("#not-signed-in").css("display", "none");
-      $("#signed-in").css("display", "auto");
+      $("#signed-in").css("display", "none");
+      $("#main-menu").css("display", "auto");
     }
     else{
       $("#signed-in").css("display", "none");
       $("#not-signed-in").css("display", "auto");
+      $("#main-menu").css("display", "none");
     }
     $("#new-team-interface").css('display', 'none');
     $("#start-statsheet-button").css('display', 'none');
+    $("#gamecast").css("display", "none");
+
+    // var btn = $.fn.button.noConflict(); // reverts $.fn.button to jqueryui btn
+    // $.fn.btn = btn;
 
       
     var chosenTeams = [];
     var alreadyOnTable = [];
 
+
     var addTeamsToTable = function(){
       console.log(Teams.find().fetch());
 
-      var teamChoices = Teams.find({}, function(err, cursor){
-        console.log("ran");
-      }).fetch();
+      var teamChoices = Teams.find({}, function(err, cursor){}).fetch();
       
       teamChoices.forEach(function(element,index,array){
         console.log("ran");
@@ -36,40 +42,45 @@ if (Meteor.isClient) {
 
 
       });
-    }
-    addTeamsToTable();
 
-    $('.team').click(function(){
+        $('.team').click(function(){
 
-      var teamID = $(this).attr('id');
-      var filter = new Object();
-      filter["_id"] = teamID;
-      var team = Teams.find(filter).fetch()[0];
+          console.log("ran");
 
-      console.log(team);
+          var teamID = $(this).attr('id');
+          var filter = new Object();
+          filter["_id"] = teamID;
+          var team = Teams.find(filter).fetch()[0];
 
-      if(teamID === 'new-team'){
+          if(chosenTeams.length < 2 && jQuery.inArray(teamID,chosenTeams) === -1){
+            $("#team-box").prepend("<h2>" + team.name+ "</h2>");
+          
+            chosenTeams.push(teamID);
+          }
+          var buttonThere = false;
+          if(chosenTeams.length == 2){
+            if(!buttonThere){
+              $("#start-statsheet-button").css('display', 'auto');
+              
+              buttonThere = true;
+            }
+          }
+
+        });
+    };
+
+      
+
+      $("#new-team").click(function(){
+
         $("#new-team-interface").css('display', 'auto');
         $("#signed-in").css("display", "none");
         $('#new-player-details').css('display', 'none');
-      }
-      else{
-        if(chosenTeams.length < 2 && jQuery.inArray(teamID,chosenTeams) === -1){
-          $("#team-box").prepend("<h2>" + team.name+ "</h2>");
-        
-          chosenTeams.push(teamID);
-        }
-        var buttonThere = false;
-        if(chosenTeams.length == 2){
-          if(!buttonThere){
-            $("#start-statsheet-button").css('display', 'auto');
-            
-            buttonThere = true;
-          }
-        }
-      }
 
-    });
+      });
+        
+      
+      
 
     $('#team-info').click(function(){
         $('#new-player-details').css('display', 'none');
@@ -130,7 +141,9 @@ if (Meteor.isClient) {
         $('#new-team-details').css('display', 'auto');
         $('#new-player-details').css('display', 'none');
 
-        addTeamsToTable();
+        //addTeamsToTable();
+
+        $('.team').click(addClickFunctionality());
 
       }
     });
@@ -146,6 +159,8 @@ if (Meteor.isClient) {
 
         var team1Players = Players.find({team:chosenTeams[0]}).fetch();
         var team2Players = Players.find({team:chosenTeams[1]}).fetch();
+
+        $("#new-statsheet").append("<div id = 'gameIdDisplay'><h3>Tweet your friends to watch the game (gameId: " + gameId + ")</h3>  <a href='https://twitter.com/share' class='twitter-share-button' data-text='Watch my Gamecast between " + team1.name + " and " + team2.name + "! Use gameID " + gameId + " on ' data-hashtags='statsketball'>Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>");
 
         var formatStatsheet = function(playerArray, side){
 
@@ -272,12 +287,17 @@ if (Meteor.isClient) {
 
 
         $(".counter").click(function(event){
+
+            
             var ids = $(event.target).attr('id').split("-");
+            var targetID = ids[0];
+            var statlineId = Statlines.find({game: gameId, player: targetID}).fetch()[0]._id;
+            var updatePoints = false;
+            var updateRebounds = false;
+
+            console.log(Statlines.find({game: gameId, player: targetID}).fetch());
 
             $("#" + ids[2] + "-value-" + ids[0]).html(parseInt($("#" + ids[2] + "-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
-            if(ids[2] === "2PTM"){
-              ids[2] = "twoPTM";
-            }
 
             if(parseInt($("#" + ids[2] + "-value-" + ids[0]).html()) < 0){
               $("#" + ids[2] + "-value-" + ids[0]).html(0);
@@ -285,10 +305,43 @@ if (Meteor.isClient) {
 
             if(ids[2].indexOf("PT") !== -1 || ids[2].indexOf("FT") !== -1){
               $("#" + "PTS" + "-value-" + ids[0]).html(parseInt($("#" + "2PTM" + "-value-" + ids[0]).html()) * 2 + parseInt($("#" + "3PTM" + "-value-" + ids[0]).html()) * 3 + parseInt($("#" + "FTM" + "-value-" + ids[0]).html()));
+              updatePoints = true;
             }
             if(ids[2].indexOf("REB") !== -1){
               $("#" + "REB" + "-value-" + ids[0]).html(parseInt($("#" + "OREB" + "-value-" + ids[0]).html()) + parseInt($("#" + "DREB" + "-value-" + ids[0]).html()) );
+              updateRebounds = true;
             }
+
+            var newValue = parseInt($("#" + ids[2] + "-value-" + ids[0]).html());
+
+            if(ids[2] === "2PTM"){
+              ids[2] = "twoPTM";
+            }
+            if(ids[2] === "2PTA"){
+              ids[2] = "twoPTA";
+            }
+            if(ids[2] === "3PTA"){
+              ids[2] = "threePTA";
+            }
+            if(ids[2] === "3PTM"){
+              ids[2] = "threePTA";
+            }
+
+            var setModifier = { $set: {} };
+            setModifier.$set[ids[2]] = newValue;
+            if(updatePoints){
+              setModifier.$set["PTS"] = parseInt($("#" + "PTS" + "-value-" + ids[0]).html());
+            }
+            if(updateRebounds){
+              setModifier.$set["REB"] = parseInt($("#" + "REB" + "-value-" + ids[0]).html());
+            }
+
+            Statlines.update({_id: statlineId}, setModifier);
+
+            console.log(Statlines.find({game: gameId, player: targetID}).fetch());
+
+
+
         });
 
 
@@ -296,7 +349,79 @@ if (Meteor.isClient) {
 
       });
 
+    $("#menu-start-gamecast").click(function(){
+
+      $("#main-menu").css("display", "none");
+      $("#gamecast").css("display", "auto");
+
     });
+
+    $("#menu-start-statsheet").click(function(){
+
+      $("#main-menu").css("display", "none");
+      $("#signed-in").css("display", "auto");
+      addTeamsToTable();
+
+    });
+
+    // $("#gameIdInput").keyup(function(){
+      
+      
+    //   UI.render(Template.tester);
+    //   console.log("ran");
+    //   //$("#gamecastTemplate").html(fragment/*Template.gamecast.render()[0].value + Template.gamecast.render()[1].children[1].__content.render()*/);
+
+    // });
+
+    });
+
+
+    Template.gamecast.player = function(){
+      return Players.find().fetch();
+    };
+
+    Template.gamecast.statsheet = function(){
+      var stats =  Statlines.find({game: $("#gameIdInput").val()}).fetch();
+      var playerOrganized = [];
+      stats.forEach(function(element, index, array){
+        element.playerName = Players.findOne({_id: element.player}).name;
+        element.playerNumber = Players.findOne({_id: element.player}).number;
+        element.team = Teams.findOne({_id: Players.findOne({_id: element.player}).team}).name;
+      });
+      console.log(stats);
+
+      return stats;
+
+    };
+
+    Template.gamecast.events({
+      'keyup #gameIdInput': function(){
+        
+        
+        if(Statlines.find({game: $("#gameIdInput").val()}).fetch().length > 0){
+          Template.gamecast.statsheet();
+          console.log("ran");
+          //$("#gamecast").html("");
+          UI.insert(UI.render(Template.gamecast), $("#gamecast")[0]);
+        };
+        
+    }
+
+    });
+
+    Template.gamecast.rendered = function(){
+      // $("#gameIdInput").keyup(function(){
+      //   if(Statlines.find({game: $("#gameIdInput").val()}).fetch().length > 1){
+      //     this.firstNode.remove();
+      //   }
+      // });
+      if(this.findAll(".holder").prevObject.length > 1){
+        //(this.findAll(".holder").prevObject[0]).remove();
+      }
+    };
+
+    
+    
  
 };
 
@@ -341,10 +466,17 @@ if (Meteor.isServer) {
         /* user and doc checks ,
         return true to allow insert */
         return true; 
+      },
+      'update': function (userId,doc) {
+        /* user and doc checks ,
+        return true to allow insert */
+        return true; 
       }
     });
 
 };
+
+
 
 
 

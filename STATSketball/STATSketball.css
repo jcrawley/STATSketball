@@ -46,6 +46,12 @@ table{
 	margin: 5px;
 }
 
+.stat-title{
+	font-size: 16px;
+	color: #0088CE;
+	background-color: black;
+}
+
 .player-stat div{
 	margin: 5px;
 	margin-left: auto;
@@ -58,6 +64,19 @@ table{
 }
 body{
 	background-color: #FFFDD0 !important;
+}
+.main-menu-item:hover{
+	
+	color: #0088CE;
+	background-color: black;
+}
+
+.jumbotron input{
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	color: #0088CE;
+	font-size: 20px;
 }
 
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {

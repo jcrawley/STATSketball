@@ -1,3 +1,4 @@
+
 <head>
   <title>Statsketball</title>
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
@@ -7,14 +8,14 @@
  
 <body>
 
-    <div class="navbar navbar-static-top navbar-inverse">
+  <div class="navbar navbar-static-top navbar-inverse">
  
       <div class="navbar-inner">
         <div class="container">
           <a class="brand" href="/">Statsketball</a>
           <ul class="nav pull-right">
             <li>
-              {{loginButtons}}
+              {{> loginButtons}}
             </li>
           </ul>
           
@@ -51,13 +52,40 @@
 
   </div>
 
+  <div id = 'main-menu' class = 'container'>
+      <div class="row">
+        <div class="jumbotron">
+            <h1>STATSketball</h1>
+            <p>Start a Statsheet or watch a Gamecast!</p>
+        </div>
+      </div>
+      <div class = "row">
+        <div class = "main-menu-item col-md-6" id="menu-start-statsheet">
+          <h2>Start Statsheet</h2>
+        </div>
+        <div class = "main-menu-item col-md-6" id="menu-start-gamecast">
+          <h2>Watch Gamecast</h2>
+        </div>
+        
+        
+
+      </div>
+      
+
+  </div>
+
+  <div id = 'gamecast' class = 'container'>
+      {{> gamecast}}
+  </div>
+
+
   <div class="container" id = 'not-signed-in'>
     <div class="row">
         <div class="jumbotron">
             <h1>STATSketball</h1>
             <div class="well">
                 <h4>Sign in using Twitter to start keeping stats</h4>
-                {{loginButtons}}
+                {{> loginButtons}}
             </div>
         </div>
     </div>
@@ -85,21 +113,21 @@
 
       <div class = "col-md-6" id="new-team-details">
           <h2>Team Name</h2>
-          <input type="text" placeholder="Team Name" id='team-name-input'></input>
+          <input type="text" placeholder="Team Name" id='team-name-input'/>
           <h2>Team Location</h2>
-          <input type="text" placeholder="San Francisco" id='team-location-input'></input>
+          <input type="text" placeholder="San Francisco" id='team-location-input'/>
           <h2>League Name</h2>
-          <input type="text" placeholder="WCC" id='team-league-input'></input>
+          <input type="text" placeholder="WCC" id='team-league-input'/>
 
       </div>
 
       <div class = "col-md-6" id="new-player-details">
           <h2>Player Name</h2>
-          <input type="text" placeholder="Michael Jordan" id='player-name-input'></input>
+          <input type="text" placeholder="Michael Jordan" id='player-name-input'/>
           <h2>Number</h2>
-          <input type="text" placeholder="23" id='player-number-input'></input>
+          <input type="text" placeholder="23" id='player-number-input'/>
           <h2>Height</h2>
-          <input type="text" placeholder="6'6" id='player-height-input'></input><br>
+          <input type="text" placeholder="6'6" id='player-height-input'/><br>
           <button type="button" class="btn btn-primary btn-lg" id="add-player-button">Add Player</button>
       </div>
 
@@ -143,17 +171,68 @@
             <div class="span6">
                 <div class="well">
                     <h4>Sign in using Twitter to start keeping stats</h4>
-                    {{loginButtons}}
+                    {{> loginButtons}}
                 </div>
             </div>
         </div>
     </div>
 </template>
 
-<template name="removePlayer">
+<template name="gamecast">
 
+<div class = 'holder'>
+  <div class="row">
+    <div class="jumbotron">
+      <h1>Enter Game ID</h1>
+      <input type="text" placeholder="gameID here" id = 'gameIdInput'/>
+    </div>
+  </div>
+
+  <div class = 'container' id = 'gamecastTemplate'>
+    <div class = row>
+    <div class="col-md-1 stat-title">number</div>
+    <div class="col-md-1 stat-title">name</div>
+    <div class="col-md-1 stat-title">2PTM</div>
+    <div class="col-md-1 stat-title">2PTA</div>
+    <div class="col-md-1 stat-title">3PTM</div>
+    <div class="col-md-1 stat-title">3PTA</div>
+    <div class="col-md-1 stat-title">STL</div>
+    <div class="col-md-1 stat-title">BLK</div>
+    <div class="col-md-1 stat-title">TO</div>
+    <div class="col-md-1 stat-title">AST</div>
+    <div class="col-md-1 stat-title">REB</div>
+    <div class="col-md-1 stat-title">PTS</div>
+  </div>
+  <ul class = 'sortable list-unstyled'>
+
+       
+      {{#each statsheet}}
+        <div class = 'gamecastStatline' id = "gamecastStatline-{{_id}}">
+            <li><div class = row>
+              <div class="col-md-1">{{playerNumber}}</div>
+              <div class="col-md-1">{{playerName}}</div>
+              <div class="col-md-1">{{twoPTM}}</div>
+              <div class="col-md-1">{{twoPTA}}</div>
+              <div class="col-md-1">{{threePTM}}</div>
+              <div class="col-md-1">{{threeTA}}</div>
+              <div class="col-md-1">{{STL}}</div>
+              <div class="col-md-1">{{BLK}}</div>
+              <div class="col-md-1">{{TO}}</div>
+              <div class="col-md-1">{{AST}}</div>
+              <div class="col-md-1">{{REB}}</div>
+              <div class="col-md-1">{{PTS}}</div>
+            </div></li>
+        </div>
+      {{/each}}
+   </ul>
+  </div>
+</div>
   
 
+</template>
+
+<template name = 'tester'>
+  <div> {{blah}} </div>
 </template>
 
 
