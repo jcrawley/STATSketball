@@ -394,13 +394,16 @@ if (Meteor.isClient) {
 
     };
 
+    var text_box_value;
+
     Template.gamecast.events({
       'keyup #gameIdInput': function(){
         
         
         if(Statlines.find({game: $("#gameIdInput").val()}).fetch().length > 0){
-          Template.gamecast.statsheet();
-          console.log("ran");
+          //Template.gamecast.statsheet();
+          text_box_value = $("#gameIdInput").val();
+          console.log("ran1");
           //$("#gamecast").html("");
           UI.insert(UI.render(Template.gamecast), $("#gamecast")[0]);
         };
@@ -409,14 +412,18 @@ if (Meteor.isClient) {
 
     });
 
+    
+
     Template.gamecast.rendered = function(){
       // $("#gameIdInput").keyup(function(){
       //   if(Statlines.find({game: $("#gameIdInput").val()}).fetch().length > 1){
       //     this.firstNode.remove();
       //   }
       // });
-      if(this.findAll(".holder").prevObject.length > 1){
-        //(this.findAll(".holder").prevObject[0]).remove();
+      if(this.findAll(".holder").prevObject.length >= 2){
+        console.log(this.findAll(".holder").prevObject.length);
+        (this.findAll(".holder").prevObject[0]).remove();
+          $("#gameIdInput").val(text_box_value);
       }
     };
 
