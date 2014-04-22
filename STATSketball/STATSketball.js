@@ -1,8 +1,8 @@
 Teams = new Meteor.Collection("teams");
 Players = new Meteor.Collection("players");
-Statlines = new Meteor.Collection("statline");
-Games = new Meteor.Collection("game");
-
+Statlines = new Meteor.Collection("statlines");
+Games = new Meteor.Collection("games");
+var pendingPlayers = [];
 if (Meteor.isClient) {
   Meteor.startup(function(){
     
@@ -31,11 +31,12 @@ if (Meteor.isClient) {
     var addTeamsToTable = function(){
       console.log(Teams.find().fetch());
 
+
       var teamChoices = Teams.find({}, function(err, cursor){}).fetch();
       
       teamChoices.forEach(function(element,index,array){
         console.log("ran");
-        if(alreadyOnTable.indexOf(element._id) === -1){
+        if(alreadyOnTable.indexOf(element._id) === -1 && element.user === Meteor.userId()){
           $('#teams > tbody:last').append(("<tr class = 'team' id = '" + element["_id"] + "'><td><h3>" + element.name + '</h3></td></tr>'));
           alreadyOnTable.push(element._id);
         }
@@ -77,6 +78,8 @@ if (Meteor.isClient) {
         $("#signed-in").css("display", "none");
         $('#new-player-details').css('display', 'none');
 
+        pendingPlayers.length = 0;
+
       });
         
       
@@ -86,14 +89,23 @@ if (Meteor.isClient) {
         $('#new-player-details').css('display', 'none');
         $('#new-team-details').css('display', 'auto');
         $('#remove-team-details').css('display', 'none');
+        $('#remove-player-option').css('display', 'none');
     });
     $('#add-player').click(function(){
         $('#new-player-details').css('display', 'auto');
         $('#new-team-details').css('display', 'none');
         $('#remove-team-details').css('display', 'none');
+        $('#remove-player-option').css('display', 'none');
     });
 
-    var pendingPlayers = [];
+     $("#remove-player").click(function(){
+        $('#remove-player-option').css('display', 'auto');
+        $('#new-player-details').css('display', 'none');
+        $('#new-team-details').css('display', 'none');
+        $('#remove-team-details').css('display', 'none');
+    });
+
+
     $('#add-player-button').click(function(){
         var tempPlayer = [];
         if($("#player-name-input").val().length <= 0 || $("#player-number-input").val().length <= 0 || $("#player-height-input").val().length <= 0){
@@ -114,6 +126,8 @@ if (Meteor.isClient) {
 
           console.log(pendingPlayers);
 
+          //Template.removePlayer.player();
+
         }
 
     });
@@ -124,7 +138,7 @@ if (Meteor.isClient) {
         alert("Need to fill out all team info");
       }
       else{
-        var newTeamId = Teams.insert({name: $("#team-name-input").val(), league: $("#team-league-input").val(), location: $("#team-location-input").val()});
+        var newTeamId = Teams.insert({name: $("#team-name-input").val(), league: $("#team-league-input").val(), location: $("#team-location-input").val(), user: Meteor.userId()});
         console.log(newTeamId);
 
         pendingPlayers.forEach(function(element,index,array){
@@ -141,9 +155,11 @@ if (Meteor.isClient) {
         $('#new-team-details').css('display', 'auto');
         $('#new-player-details').css('display', 'none');
 
-        //addTeamsToTable();
+        addTeamsToTable();
 
         $('.team').click(addClickFunctionality());
+
+        pendingPlayers.length = 0;
 
       }
     });
@@ -162,9 +178,11 @@ if (Meteor.isClient) {
 
         $("#new-statsheet").append("<div id = 'gameIdDisplay'><h3>Tweet your friends to watch the game (gameId: " + gameId + ")</h3>  <a href='https://twitter.com/share' class='twitter-share-button' data-text='Watch my Gamecast between " + team1.name + " and " + team2.name + "! Use gameID " + gameId + " on ' data-hashtags='statsketball'>Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>");
 
-        var formatStatsheet = function(playerArray, side){
+        var formatStatsheet = function(playerArray, side, score){
 
           var teamName = Teams.find({_id: playerArray[0].team}).fetch()[0].name;
+
+          $("#" + score).attr("id", playerArray[0].team + "-points");
 
           $("#" + side + "-name").append( "<h3>" + teamName + "</h3>" );
           var primary = side.indexOf("team-2-players") ? "success" : "primary";
@@ -266,7 +284,7 @@ if (Meteor.isClient) {
 
             playerLine.push("</li>");
 
-            Statlines.insert({twoPTM: 0, twoPTA: 0, threePTM: 0, threeTA: 0, OREB: 0, FTM: 0, DREB: 0, FTA: 0, AST: 0, TO: 0, STL: 0, BLK: 0, REB: 0, PTS: 0, player: element._id, game: gameId});
+            Statlines.insert({twoPTM: 0, twoPTA: 0, threePTM: 0, threePTA: 0, OREB: 0, FTM: 0, DREB: 0, FTA: 0, AST: 0, TO: 0, STL: 0, BLK: 0, REB: 0, PTS: 0, player: element._id, game: gameId});
 
             
             $("#" + side).append( playerLine.join(" ") );
@@ -282,8 +300,8 @@ if (Meteor.isClient) {
 
         };
 
-        formatStatsheet(team1Players, "team-1-players");
-        formatStatsheet(team2Players, "team-2-players");
+        formatStatsheet(team1Players, "team-1-players", "team-1-points");
+        formatStatsheet(team2Players, "team-2-players", "team-2-points");
 
 
         $(".counter").click(function(event){
@@ -304,8 +322,13 @@ if (Meteor.isClient) {
             }
 
             if(ids[2].indexOf("PT") !== -1 || ids[2].indexOf("FT") !== -1){
+              var previousPoints = parseInt($("#" + "PTS" + "-value-" + ids[0]).html());
               $("#" + "PTS" + "-value-" + ids[0]).html(parseInt($("#" + "2PTM" + "-value-" + ids[0]).html()) * 2 + parseInt($("#" + "3PTM" + "-value-" + ids[0]).html()) * 3 + parseInt($("#" + "FTM" + "-value-" + ids[0]).html()));
+              var newPoints = parseInt($("#" + "PTS" + "-value-" + ids[0]).html());
               updatePoints = true;
+              var pointChangeTeamId = Players.find({_id: ids[0]}).fetch()[0].team
+              console.log(parseInt($("#" + pointChangeTeamId + "-points").html()));
+              $("#" + pointChangeTeamId + "-points").html(parseInt($("#" + pointChangeTeamId + "-points").html()) + parseInt(newPoints - previousPoints));
             }
             if(ids[2].indexOf("REB") !== -1){
               $("#" + "REB" + "-value-" + ids[0]).html(parseInt($("#" + "OREB" + "-value-" + ids[0]).html()) + parseInt($("#" + "DREB" + "-value-" + ids[0]).html()) );
@@ -331,6 +354,7 @@ if (Meteor.isClient) {
             setModifier.$set[ids[2]] = newValue;
             if(updatePoints){
               setModifier.$set["PTS"] = parseInt($("#" + "PTS" + "-value-" + ids[0]).html());
+              console.log(Players.find({_id: ids[0]}).fetch()[0].team);
             }
             if(updateRebounds){
               setModifier.$set["REB"] = parseInt($("#" + "REB" + "-value-" + ids[0]).html());
@@ -338,7 +362,7 @@ if (Meteor.isClient) {
 
             Statlines.update({_id: statlineId}, setModifier);
 
-            console.log(Statlines.find({game: gameId, player: targetID}).fetch());
+            //console.log(Statlines.find({game: gameId, player: targetID}).fetch());
 
 
 
@@ -363,6 +387,8 @@ if (Meteor.isClient) {
       addTeamsToTable();
 
     });
+
+
 
     // $("#gameIdInput").keyup(function(){
       
@@ -426,6 +452,23 @@ if (Meteor.isClient) {
           $("#gameIdInput").val(text_box_value);
       }
     };
+
+    Template.removePlayer.player = function(){
+        //console.log(pendingPlayers + " titties");
+        var removePlayerArray = [];
+        pendingPlayers.forEach(function(element,index,array){
+          removePlayerArray.push({name: element[0], number: element[1]});
+        });
+        //console.log(removePlayerArray);
+        return removePlayerArray;
+
+    };
+
+    Template.loginButtons.events({
+      'onclick .login-text-and-button': function(){
+        location.reload();
+      }
+    })
 
     
     

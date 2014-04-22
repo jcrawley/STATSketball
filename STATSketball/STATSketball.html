@@ -131,10 +131,18 @@
           <button type="button" class="btn btn-primary btn-lg" id="add-player-button">Add Player</button>
       </div>
 
+      <div class = "col-md-6" id="remove-player-option">
+          {{> removePlayer}}
+      </div>
+
     </div>
   </div>
 
   <div class = 'container' id = 'new-statsheet'>
+    <div class="jumbotron">
+      <h1><span id = 'team-1-points'>0</span> - <span id = 'team-2-points'>0</span></h1>
+      <p>...</p>
+    </div>
     <div class = "row">
       <div class = "col-md-6">
         <div id = 'team-1-players-name'></div>
@@ -214,7 +222,7 @@
               <div class="col-md-1">{{twoPTM}}</div>
               <div class="col-md-1">{{twoPTA}}</div>
               <div class="col-md-1">{{threePTM}}</div>
-              <div class="col-md-1">{{threeTA}}</div>
+              <div class="col-md-1">{{threePTA}}</div>
               <div class="col-md-1">{{STL}}</div>
               <div class="col-md-1">{{BLK}}</div>
               <div class="col-md-1">{{TO}}</div>
@@ -231,8 +239,14 @@
 
 </template>
 
-<template name = 'tester'>
-  <div> {{blah}} </div>
+<template name = 'removePlayer'>
+  {{#if player}}
+  {{#each player}}
+  
+    <div> <button type="button" class="btn btn-info">Remove</button>{{number}} {{name}} </div>
+  
+  {{/each}}
+  {{/if}}
 </template>
 
 
