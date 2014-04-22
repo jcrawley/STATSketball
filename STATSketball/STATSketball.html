@@ -131,10 +131,18 @@
           <button type="button" class="btn btn-primary btn-lg" id="add-player-button">Add Player</button>
       </div>
 
+      <div class = "col-md-6" id="remove-player-option">
+          {{> removePlayer}}
+      </div>
+
     </div>
   </div>
 
   <div class = 'container' id = 'new-statsheet'>
+    <div class="jumbotron">
+      <h1><span id = 'team-1-points'>0</span> - <span id = 'team-2-points'>0</span></h1>
+      <p>...</p>
+    </div>
     <div class = "row">
       <div class = "col-md-6">
         <div id = 'team-1-players-name'></div>
@@ -170,7 +178,7 @@
         <div class="row">
             <div class="span6">
                 <div class="well">
-                    <h4>Sign in using Twitter to start keeping stats</h4>
+                    <h4>Sign in Using Twitter to Use STATSketball</h4>
                     {{> loginButtons}}
                 </div>
             </div>
@@ -214,16 +222,45 @@
               <div class="col-md-1">{{twoPTM}}</div>
               <div class="col-md-1">{{twoPTA}}</div>
               <div class="col-md-1">{{threePTM}}</div>
-              <div class="col-md-1">{{threeTA}}</div>
+              <div class="col-md-1">{{threePTA}}</div>
               <div class="col-md-1">{{STL}}</div>
               <div class="col-md-1">{{BLK}}</div>
               <div class="col-md-1">{{TO}}</div>
               <div class="col-md-1">{{AST}}</div>
               <div class="col-md-1">{{REB}}</div>
-              <div class="col-md-1">{{PTS}}</div>
+              <div class="col-md-1 pts" id="{{_id}}-points">{{PTS}}</div>
             </div></li>
         </div>
       {{/each}}
+
+      <div class = 'container' id = 'gamecastTemplatePercentages'>
+        <div class = row>
+          <div class="col-md-1 stat-title">number</div>
+          <div class="col-md-1 stat-title">name</div>
+          <div class="col-md-2 stat-title">FG%</div>
+          <div class="col-md-2 stat-title">EFG%</div>
+          <div class="col-md-2 stat-title">TS%</div>
+          <div class="col-md-2 stat-title">FT%</div>
+        </div>
+
+      </div>
+
+      {{#each statsheet}}
+        <div class = 'gamecastStatline' id = "gamecastStatline-{{_id}}-Percentages">
+            <li><div class = row>
+              <div class="col-md-1">{{playerNumber}}</div>
+              <div class="col-md-1">{{playerName}}</div>
+              <div class="col-md-2">{{FGP}}</div>
+              <div class="col-md-2">{{EFGP}}</div>
+              <div class="col-md-2">{{TSP}}</div>
+              <div class="col-md-2">{{FTP}}</div>
+            </div></li>
+        </div>
+      {{/each}}
+
+      
+       <canvas class="PieChart" height = '400' width = '400'></canvas>
+
    </ul>
   </div>
 </div>
@@ -231,8 +268,14 @@
 
 </template>
 
-<template name = 'tester'>
-  <div> {{blah}} </div>
+<template name = 'removePlayer'>
+  {{#if player}}
+  {{#each player}}
+  
+    <div> <button type="button" class="btn btn-info">Remove</button>{{number}} {{name}} </div>
+  
+  {{/each}}
+  {{/if}}
 </template>
 
 

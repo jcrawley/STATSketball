@@ -79,6 +79,11 @@ body{
 	font-size: 20px;
 }
 
+#new-statsheet{
+	display: none;
+}
+
+
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {
   background-color: #0088CE;
 }*/
