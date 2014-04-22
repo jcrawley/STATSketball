@@ -168,6 +168,7 @@ if (Meteor.isClient) {
 
     $("#start-statsheet-button").click(function(){
         $("#signed-in").css("display", "none");
+        $("#new-statsheet").css("display", "block");
         var team1 = Teams.find({_id:chosenTeams[0]}).fetch()[0];
         var team2 = Teams.find({_id:chosenTeams[1]}).fetch()[0];
 
@@ -284,7 +285,7 @@ if (Meteor.isClient) {
 
             playerLine.push("</li>");
 
-            Statlines.insert({twoPTM: 0, twoPTA: 0, threePTM: 0, threePTA: 0, OREB: 0, FTM: 0, DREB: 0, FTA: 0, AST: 0, TO: 0, STL: 0, BLK: 0, REB: 0, PTS: 0, player: element._id, game: gameId});
+            Statlines.insert({twoPTM: 0, twoPTA: 0, threePTM: 0, threePTA: 0, OREB: 0, FTM: 0, DREB: 0, FTA: 0, AST: 0, TO: 0, STL: 0, BLK: 0, REB: 0, PTS: 0, player: element._id, game: gameId, FGP: 0, EFGP: 0, TSP: 0, FTP: 0});
 
             
             $("#" + side).append( playerLine.join(" ") );
@@ -362,6 +363,8 @@ if (Meteor.isClient) {
 
             Statlines.update({_id: statlineId}, setModifier);
 
+            updateAdvancedStatistics(statlineId);
+
             //console.log(Statlines.find({game: gameId, player: targetID}).fetch());
 
 
@@ -387,6 +390,11 @@ if (Meteor.isClient) {
       addTeamsToTable();
 
     });
+
+    var updateAdvancedStatistics = function(id){
+      var attrAccess = Statlines.find({_id: id}).fetch()[0];
+      Statlines.update({_id: id}, {$set : { FGP : Math.round(((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000, EFGP : Math.round(((attrAccess.twoPTM + (1.5 * attrAccess.threePTM))/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000, TSP: Math.round(((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)))*1000)/1000, FTP: Math.round((attrAccess.FTM/attrAccess.FTA) * 1000)/ 1000} });
+    }
 
 
 

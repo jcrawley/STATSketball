@@ -178,7 +178,7 @@
         <div class="row">
             <div class="span6">
                 <div class="well">
-                    <h4>Sign in using Twitter to start keeping stats</h4>
+                    <h4>Sign in Using Twitter to Use STATSketball</h4>
                     {{> loginButtons}}
                 </div>
             </div>
@@ -232,6 +232,33 @@
             </div></li>
         </div>
       {{/each}}
+
+      <div class = 'container' id = 'gamecastTemplatePercentages'>
+        <div class = row>
+          <div class="col-md-1 stat-title">number</div>
+          <div class="col-md-1 stat-title">name</div>
+          <div class="col-md-2 stat-title">FG%</div>
+          <div class="col-md-2 stat-title">EFG%</div>
+          <div class="col-md-2 stat-title">TS%</div>
+          <div class="col-md-2 stat-title">FT%</div>
+        </div>
+
+      </div>
+
+      {{#each statsheet}}
+        <div class = 'gamecastStatline' id = "gamecastStatline-{{_id}}-Percentages">
+            <li><div class = row>
+              <div class="col-md-1">{{playerNumber}}</div>
+              <div class="col-md-1">{{playerName}}</div>
+              <div class="col-md-2">{{FGP}}</div>
+              <div class="col-md-2">{{EFGP}}</div>
+              <div class="col-md-2">{{TSP}}</div>
+              <div class="col-md-2">{{FTP}}</div>
+            </div></li>
+        </div>
+      {{/each}}
+
+
    </ul>
   </div>
 </div>
