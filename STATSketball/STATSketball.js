@@ -393,8 +393,14 @@ if (Meteor.isClient) {
 
     var updateAdvancedStatistics = function(id){
       var attrAccess = Statlines.find({_id: id}).fetch()[0];
-      Statlines.update({_id: id}, {$set : { FGP : Math.round(((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000, EFGP : Math.round(((attrAccess.twoPTM + (1.5 * attrAccess.threePTM))/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000, TSP: Math.round(((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)))*1000)/1000, FTP: Math.round((attrAccess.FTM/attrAccess.FTA) * 1000)/ 1000} });
-    }
+      var fieldGoalPercentage = Math.round(((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000;
+      var effectiveFieldGoalPercentage = Math.round((((attrAccess.twoPTM) + (1.5 * attrAccess.threePTM))/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000;
+      console.log((attrAccess.twoPTM + (1.5 * attrAccess.threePTM)) + " " + (attrAccess.twoPTM + attrAccess.threePTM));
+      var trueShootingPercentage = Math.round(((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)))*1000)/1000;
+      var freethrowPercentage = Math.round((attrAccess.FTM/attrAccess.FTA) * 1000)/ 1000;
+      Statlines.update({_id: id}, {$set : { FGP : fieldGoalPercentage, EFGP: effectiveFieldGoalPercentage , TSP: trueShootingPercentage, FTP: freethrowPercentage} });
+
+    };
 
 
 
@@ -437,16 +443,31 @@ if (Meteor.isClient) {
         if(Statlines.find({game: $("#gameIdInput").val()}).fetch().length > 0){
           //Template.gamecast.statsheet();
           text_box_value = $("#gameIdInput").val();
-          console.log("ran1");
           //$("#gamecast").html("");
           UI.insert(UI.render(Template.gamecast), $("#gamecast")[0]);
+          UI.insert(UI.render(Template.pointChart), $("#gamecast")[0]);
         };
         
     }
 
     });
 
-    
+    Template.removePlayer.player = function(){
+        //console.log(pendingPlayers + " titties");
+        var removePlayerArray = [];
+        pendingPlayers.forEach(function(element){
+          removePlayerArray.push({name: element[0], number: element[1]});
+        });
+        //console.log(removePlayerArray);
+        return removePlayerArray;
+
+    };
+
+    Template.loginButtons.events({
+      'onclick .login-text-and-button': function(){
+        location.reload();
+      }
+    });
 
     Template.gamecast.rendered = function(){
       // $("#gameIdInput").keyup(function(){
@@ -459,24 +480,38 @@ if (Meteor.isClient) {
         (this.findAll(".holder").prevObject[0]).remove();
           $("#gameIdInput").val(text_box_value);
       }
+
+      function drawChart(){
+        var data = [];
+
+        if ($(".pts").length > 0){
+          $(".pts").forEach(function(element, index, array){
+            data.push({value: Math.parseInt(element.html()), color: '#' + Math.random().toString(16).substring(2, 8)});
+             console.log(element.html());
+          });
+        }
+
+        var data2 = [
+          {
+            value: 50,
+            color: Math.random().toString(16).substring(2, 8)
+          },
+          {
+            value: 30,
+            color: Math.random().toString(16).substring(2, 8)
+          }
+        
+        ];
+
+        var options = [];
+        var ctx = document.getElementsByClassName(".PieChart")[0].getContext("2d");
+        new Chart(ctx).Pie(data2,options);
+
+      };
+      drawChart();
+
+
     };
-
-    Template.removePlayer.player = function(){
-        //console.log(pendingPlayers + " titties");
-        var removePlayerArray = [];
-        pendingPlayers.forEach(function(element,index,array){
-          removePlayerArray.push({name: element[0], number: element[1]});
-        });
-        //console.log(removePlayerArray);
-        return removePlayerArray;
-
-    };
-
-    Template.loginButtons.events({
-      'onclick .login-text-and-button': function(){
-        location.reload();
-      }
-    })
 
     
     

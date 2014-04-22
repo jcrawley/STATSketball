@@ -228,7 +228,7 @@
               <div class="col-md-1">{{TO}}</div>
               <div class="col-md-1">{{AST}}</div>
               <div class="col-md-1">{{REB}}</div>
-              <div class="col-md-1">{{PTS}}</div>
+              <div class="col-md-1 pts" id="{{_id}}-points">{{PTS}}</div>
             </div></li>
         </div>
       {{/each}}
@@ -258,6 +258,8 @@
         </div>
       {{/each}}
 
+      
+       <canvas class="PieChart" height = '400' width = '400'></canvas>
 
    </ul>
   </div>
