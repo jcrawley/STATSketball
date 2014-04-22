@@ -159,7 +159,9 @@ if (Meteor.isClient) {
 
         $('.team').click(addClickFunctionality());
 
-        pendingPlayers.length = 0;
+        while(pendingPlayers.length > 0){
+          pendingPlayers.pop();
+        }
 
       }
     });
