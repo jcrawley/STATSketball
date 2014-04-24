@@ -32,6 +32,8 @@ if (Meteor.isClient) {
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
       $("#signed-in").css("display", "auto");
+      $(".navbar-option").removeClass("active");
+      $("#start-statsheet-navbar").addClass("active");
 
       addTeamsToTable();
 
@@ -41,12 +43,16 @@ if (Meteor.isClient) {
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
       $("#gamecast").css("display", "block");
+      $(".navbar-option").removeClass("active");
+      $("#watch-gamecast-navbar").addClass("active");
     });
 
     $("#create-team-navbar").click(function(){
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
       $("#new-team-interface").css('display', 'block');
+      $(".navbar-option").removeClass("active");
+      $("#create-team-navbar").addClass("active");
     });
 
 

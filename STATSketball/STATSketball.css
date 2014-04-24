@@ -83,6 +83,10 @@ body{
 	display: none;
 }
 
+.navbar-option{
+	font-size: 16px;
+	margin: 3px;
+}
 
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {
   background-color: #0088CE;
