@@ -27,6 +27,28 @@ if (Meteor.isClient) {
     var chosenTeams = [];
     var alreadyOnTable = [];
 
+    $("#start-statsheet-navbar").click(function(){
+
+      $(".container").css("display","none");
+      $("#upper-nav").css("display", "auto");
+      $("#signed-in").css("display", "auto");
+
+      addTeamsToTable();
+
+    });
+
+    $("#watch-gamecast-navbar").click(function(){
+      $(".container").css("display","none");
+      $("#upper-nav").css("display", "auto");
+      $("#gamecast").css("display", "block");
+    });
+
+    $("#create-team-navbar").click(function(){
+      $(".container").css("display","none");
+      $("#upper-nav").css("display", "auto");
+      $("#new-team-interface").css('display', 'block');
+    });
+
 
     var addTeamsToTable = function(){
       console.log(Teams.find().fetch());
@@ -78,7 +100,9 @@ if (Meteor.isClient) {
         $("#signed-in").css("display", "none");
         $('#new-player-details').css('display', 'none');
 
-        pendingPlayers.length = 0;
+        while(pendingPlayers.length > 0){
+          pendingPlayers.pop();
+        }
 
       });
         
@@ -179,8 +203,7 @@ if (Meteor.isClient) {
         var team1Players = Players.find({team:chosenTeams[0]}).fetch();
         var team2Players = Players.find({team:chosenTeams[1]}).fetch();
 
-        $("#new-statsheet").append("<div id = 'gameIdDisplay'><h3>Tweet your friends to watch the game (gameId: " + gameId + ")</h3>  <a href='https://twitter.com/share' class='twitter-share-button' data-text='Watch my Gamecast between " + team1.name + " and " + team2.name + "! Use gameID " + gameId + " on ' data-hashtags='statsketball'>Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>");
-
+        $("#new-statsheet").append("<div id = 'gameIdDisplay'><h3>Tweet your friends to watch the game (gameId: " + gameId + ")</h3>  <a href='https://twitter.com/share' target = '_blank' class='twitter-share-button' data-text='Watch my Gamecast between " + team1.name + " and " + team2.name + "! Use gameID " + gameId + " on ' data-hashtags='statsketball'>Tweet</a> <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script>");
         var formatStatsheet = function(playerArray, side, score){
 
           var teamName = Teams.find({_id: playerArray[0].team}).fetch()[0].name;
