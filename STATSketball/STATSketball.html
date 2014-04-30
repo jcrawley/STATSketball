@@ -7,6 +7,7 @@
  </head>
  
 <body>
+
   <div class="navbar navbar-static-top navbar-inverse">
  
       <div class="navbar-inner">
@@ -82,6 +83,7 @@
 
   <div id = 'gamecast' class = 'container'>
       {{> gamecast}}
+       <canvas id="PieChart" height = '400' width = '400'></canvas>
   </div>
 
 
@@ -263,9 +265,6 @@
             </div></li>
         </div>
       {{/each}}
-
-      
-       <canvas class="PieChart" height = '400' width = '400'></canvas>
 
    </ul>
   </div>

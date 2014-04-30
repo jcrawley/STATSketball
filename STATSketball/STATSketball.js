@@ -509,11 +509,21 @@ if (Meteor.isClient) {
       if(this.findAll(".holder").prevObject.length >= 2){
         console.log(this.findAll(".holder").prevObject.length);
         (this.findAll(".holder").prevObject[0]).remove();
-          $("#gameIdInput").val(text_box_value);
+        $("#gameIdInput").val(text_box_value);
+        $("#gamecast").append($("#PieChart"));
       }
 
       function drawChart(){
         var data = [];
+
+        $(".pts").forEach(function(element,index,array){
+          var pts = element.html();
+          var label = Players.find({_id: element.get(0).id}).fetch()[0].name;
+          var labelFontSize = '16';
+          var color = Math.random().toString(16).substring(2, 8);
+
+          data.push({value: 20, label: "label", color: color});
+        });
 
         if ($(".pts").length > 0){
           $(".pts").forEach(function(element, index, array){
@@ -522,21 +532,9 @@ if (Meteor.isClient) {
           });
         }
 
-        var data2 = [
-          {
-            value: 50,
-            color: Math.random().toString(16).substring(2, 8)
-          },
-          {
-            value: 30,
-            color: Math.random().toString(16).substring(2, 8)
-          }
-        
-        ];
-
         var options = [];
-        var ctx = document.getElementsByClassName(".PieChart")[0].getContext("2d");
-        new Chart(ctx).Pie(data2,options);
+        var ctx = document.getElementById("PieChart").getContext("2d");
+        new Chart(ctx).Pie(data,options);
 
       };
       drawChart();
