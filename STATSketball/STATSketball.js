@@ -9,7 +9,15 @@ var chosenTeams = [];
 var pendingPlayers = [];
 if (Meteor.isClient) {
   Meteor.startup(function(){
-    $(document).tooltip({
+    $(".col-md-1").tooltip({
+      position: {
+        my: "bottom",
+        at: "center top"
+      },
+      tooltipClass: "tooltipStyle"
+    });
+
+    $(".col-md-2").tooltip({
       position: {
         my: "bottom",
         at: "center top"
@@ -42,8 +50,8 @@ if (Meteor.isClient) {
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
       $("#signed-in").css("display", "auto");
-      $(".navbar-option").removeClass("active");
-      $("#start-statsheet-navbar").addClass("active");
+      $(".navbar-option").removeClass("activated");
+      $("#start-statsheet-navbar").addClass("activated");
 
     });
 
@@ -51,16 +59,16 @@ if (Meteor.isClient) {
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
       $("#gamecast").css("display", "auto");
-      $(".navbar-option").removeClass("active");
-      $("#watch-gamecast-navbar").addClass("active");
+      $(".navbar-option").removeClass("activated");
+      $("#watch-gamecast-navbar").addClass("activated");
     });
 
     $("#create-team-navbar").click(function(){
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
       $("#new-team-interface").css('display', 'block');
-      $(".navbar-option").removeClass("active");
-      $("#create-team-navbar").addClass("active");
+      $(".navbar-option").removeClass("activated");
+      $("#create-team-navbar").addClass("activated");
       $('#new-player-details').css('display', 'none');
     });
 
@@ -190,13 +198,13 @@ if (Meteor.isClient) {
             playerLine.push("<div class='col-md-2'><h4>" + element.number + "</h4>" + element.name + "</div>");
             //category Tab
             playerLine.push("<div class='col-md-1'>");
-            playerLine.push("<div class = 'stat-category'>2PTM</div>");
-            playerLine.push("<div class = 'stat-category'>2PTA</div>");
-            playerLine.push("<div class = 'stat-category'>OREB</div>");
-            playerLine.push("<div class = 'stat-category'>DREB</div>");
-            playerLine.push("<div class = 'stat-category'>AST</div>");
-            playerLine.push("<div class = 'stat-category'>STL</div>");
-            playerLine.push("<div class = 'stat-category'>REB</div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'two pointers made' href = '#''>2PTM</a></a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'two pointers attempted' href = '#''>2PTA</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'offensive rebounds' href = '#''>OREB</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'defensive rebounds' href = '#''>DREB</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'assists' href = '#''>AST</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'steals' href = '#''>STL</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'total rebounds' href = '#''>REB</a></div>");
             playerLine.push("</div>");
 
 
@@ -233,13 +241,13 @@ if (Meteor.isClient) {
 
             //category Tab
             playerLine.push("<div class='col-md-1'>");
-            playerLine.push("<div class = 'stat-category'>3PTM</div>");
-            playerLine.push("<div class = 'stat-category'>3PTA</div>");
-            playerLine.push("<div class = 'stat-category'>FTM</div>");
-            playerLine.push("<div class = 'stat-category'>FTA</div>");
-            playerLine.push("<div class = 'stat-category'>TO</div>");
-            playerLine.push("<div class = 'stat-category'>BLK</div>");
-            playerLine.push("<div class = 'stat-category'>PTS</div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'three pointers made' href = '#''>3PTM</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'three pointers attempted' href = '#''>3PTA</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'free throws made' href = '#''>FTM</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'free throws attempted' href = '#''>FTA</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'turnovers' href = '#''>TO</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'blocks' href = '#''>BLK</a></div>");
+            playerLine.push("<div class = 'stat-category'><a class = 'stat-category-link' title = 'total points' href = '#''>PTS</a></div>");
             playerLine.push("</div>");
 
             playerLine.push("<div class='col-md-3'><div>"  + " <button type='button' class='counter plus-points btn btn-" + primary + " btn-xs' id = '" + element._id + "-plus-3PTM'>+</button>");
@@ -284,6 +292,14 @@ if (Meteor.isClient) {
             
             $("#" + side).append( playerLine.join(" ") );
             $(".sortable").sortable();
+
+            $(".stat-category-link").tooltip({
+              position: {
+                my: "left",
+                at: "bottom left"
+              },
+              tooltipClass: "tooltipStyle"
+            });
 
             // Players.insert({name: element[0], number: element[1], height: element[2], team: newTeamId});
 
@@ -342,7 +358,7 @@ if (Meteor.isClient) {
               ids[2] = "threePTA";
             }
             if(ids[2] === "3PTM"){
-              ids[2] = "threePTA";
+              ids[2] = "threePTM";
             }
 
             var setModifier = { $set: {} };
@@ -382,8 +398,10 @@ if (Meteor.isClient) {
       $("#main-menu").css("display", "none");
       $("#signed-in").css("display", "auto");
 
+      var overflowHeight = ($(window).height() - $('.overflow').offset().top) > 100 ? $(window).height() - $('.overflow').offset().top : 100;
 
-      $(".overflow").css("height", $(window).height() - $('.overflow').offset().top + "px");
+
+      $(".overflow").css("height", overflowHeight + "px");
 
       console.log($(window).height() - $('.overflow').offset().top);
 
@@ -396,6 +414,7 @@ if (Meteor.isClient) {
       console.log((attrAccess.twoPTM + (1.5 * attrAccess.threePTM)) + " " + (attrAccess.twoPTM + attrAccess.threePTM));
       var trueShootingPercentage = Math.round(((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)))*1000)/1000;
       var freethrowPercentage = Math.round((attrAccess.FTM/attrAccess.FTA) * 1000)/ 1000;
+      var gameScore = attrAccess.PTS + .7 * (attrAccess.twoPTM + attrAccess.threePTM)
       Statlines.update({_id: id}, {$set : { FGP : fieldGoalPercentage, EFGP: effectiveFieldGoalPercentage , TSP: trueShootingPercentage, FTP: freethrowPercentage} });
 
     };

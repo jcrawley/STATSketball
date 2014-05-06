@@ -180,6 +180,7 @@
 
   </div>
 
+
     
 
 
@@ -287,4 +288,78 @@
   {{/each}}
 </template>
 
+<!-- <template name = 'statsheet'>
+  <div class = "row">
+      <div class = "col-md-6">
+        <div id = 'team-1-players-name'></div>
+        <h3> {{team1name}} </h3>
+        <ul class = 'sortable list-unstyled' id = 'team-1-players'>
+          {{#each team1player}}
+          <li class = 'player-stat'> 
+            <div class='row'>
+              <div class='col-md-2'><h4>{{number}}</h4>{{name}}</div>
+            </div>
+            <div class='col-md-1'>
+              <div class = 'stat-category'>2PTM</div>
+              <div class = 'stat-category'>2PTA</div>
+              <div class = 'stat-category'>OREB</div>
+              <div class = 'stat-category'>DREB</div>
+              <div class = 'stat-category'>AST</div>
+              <div class = 'stat-category'>STL</div>
+              <div class = 'stat-category'>REB</div>
+            </div>
+
+            <div class='col-md-3'>
+              <div>
+                 <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-2PTM'>+</button>
+                <span id = '2PTM-value-{{_id}}' class = 'stat-count'>0</span>
+                <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-2PTM'>-</button>
+              </div>
+
+              <div>
+                <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-2PTA'>+</button>
+                <span id = '2PTA-value-{{_id}}' class = 'stat-count'>0</span>
+                <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-2PTA'>-</button>
+              </div>
+              
+
+              <div>
+                <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-OREB'>+</button>
+                <span id = 'OREB-value-{{_id}}' class = 'stat-count'>0</span>
+                <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-OREB'>-</button>
+              </div>
+              
+              <div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-DREB'>+</button>
+              <span id = 'DREB-value-{{_id}}' class = 'stat-count'>0</span>
+              <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-DREB'>-</button></div>
+
+              <div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-AST'>+</button>
+              <span id = 'AST-value-{{_id}}' class = 'stat-count'>0</span>
+              <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-AST'>-</button></div>
+
+              <div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-STL'>+</button>
+              <span id = 'STL-value-{{_id}}' class = 'stat-count'>0</span>
+              <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-STL'>-</button></div>
+
+              <div> <span id = 'REB-value-{{_id}}' class = 'stat-count'>0</span> </div>
+            
+
+            </div>
+
+        </ul>
+          
+
+      </div>
+      <div class = "col-md-6">
+        <div id = 'team-2-players-name'></div>
+        <ul class = 'sortable list-unstyled' id = 'team-2-players'>
+
+        </ul>
+
+      </div>
+    </div>
+
+
+</template>
+ -->
 

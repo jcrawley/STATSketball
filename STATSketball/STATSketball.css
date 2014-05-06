@@ -27,7 +27,7 @@
 	border-color: #04529C !important;
 }
 
-navbar-inverse .navbar-nav>.active>a{
+navbar-inverse .navbar-nav>.activated>a{
 	color: #04529C !important;
 	background-color: #FFCC33 !important;
 }
@@ -95,8 +95,8 @@ body{
 	color: #04529C ;
 }
 
-a{
-	color: #FFCC33 !important;
+.col-md-1 a, .col-md-2 a{
+	color: #FFCC33 ;
 }
 
 .jumbotron input{
@@ -129,6 +129,7 @@ a{
 .tooltipStyle{
 	background-color: #04529C;
 	color: #FFCC33;
+	width: 20%;
 }
 
 .overflow{
@@ -142,6 +143,10 @@ a{
 .team:hover{
 	color: #FFCC33;
 	background-color: #04529C;
+}
+
+.stat-category a{
+	color: #04529C;
 }
 
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {
