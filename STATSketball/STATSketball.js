@@ -2,9 +2,17 @@ Teams = new Meteor.Collection("teams");
 Players = new Meteor.Collection("players");
 Statlines = new Meteor.Collection("statlines");
 Games = new Meteor.Collection("games");
+
+
 var pendingPlayers = [];
 if (Meteor.isClient) {
   Meteor.startup(function(){
+    $(document).tooltip({
+      position: {
+        my: "bottom",
+        at: "center top"
+      }
+    });
     
    if(Meteor.userId() !== null){
       $("#not-signed-in").css("display", "none");
@@ -479,7 +487,10 @@ if (Meteor.isClient) {
           UI.insert(UI.render(Template.pointChart), $("#gamecast")[0]);
         };
         
-    }
+      }, 
+      // 'mouseenter .twoPTM': function(){
+      //   $('.twoPTM').html("two pointers made")
+      // }
 
     });
 

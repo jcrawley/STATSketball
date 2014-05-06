@@ -1,16 +1,19 @@
 
 <head>
   <title>Statsketball</title>
+
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="STATSketball.css">
+
+  <link href="STATSketball.css">
+    
   <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
  </head>
  
 <body>
 
-  <div class="navbar navbar-static-top navbar-inverse">
+  <div class="navbar" background-color ='#FFCC33'>
  
-      <div class="navbar-inner">
+      <div class="navbar-inner" id = "inner-navbar">
         <div class="container" id= "upper-nav">
           <a class="brand" href="/">Statsketball</a>
           <ul class="nav navbar-nav">
@@ -206,18 +209,18 @@
 
   <div class = 'container' id = 'gamecastTemplate'>
     <div class = row>
-    <div class="col-md-1 stat-title">number</div>
-    <div class="col-md-1 stat-title">name</div>
-    <div class="col-md-1 stat-title">2PTM</div>
-    <div class="col-md-1 stat-title">2PTA</div>
-    <div class="col-md-1 stat-title">3PTM</div>
-    <div class="col-md-1 stat-title">3PTA</div>
-    <div class="col-md-1 stat-title">STL</div>
-    <div class="col-md-1 stat-title">BLK</div>
-    <div class="col-md-1 stat-title">TO</div>
-    <div class="col-md-1 stat-title">AST</div>
-    <div class="col-md-1 stat-title">REB</div>
-    <div class="col-md-1 stat-title">PTS</div>
+    <div class="col-md-1 stat-title"><a title = 'player number' href = "#">number</a></div>
+    <div class="col-md-1 stat-title"><a title = 'player name' href = "#">name</a></div>
+    <div class="col-md-1 stat-title"><a title = 'two point baskets made' href = "#">2PTM</a></div>
+    <div class="col-md-1 stat-title"><a title = 'two point baskets attempted' href = "#">2PTA</a></div>
+    <div class="col-md-1 stat-title"><a title = 'three point baskets made' href = "#">3PTM</a></div>
+    <div class="col-md-1 stat-title"><a title = 'three point baskets attempted' href = "#">3PTA</a></div>
+    <div class="col-md-1 stat-title"><a title = 'steals' href = "#">STL</a></div>
+    <div class="col-md-1 stat-title"><a title = 'blocks' href = "#">BLK</a></div>
+    <div class="col-md-1 stat-title"><a title = 'turnovers' href = "#">TO</a></div>
+    <div class="col-md-1 stat-title"><a title = 'assists' href = "#">AST</a></div>
+    <div class="col-md-1 stat-title"><a title = 'rebounds' href = "#">REB</a></div>
+    <div class="col-md-1 stat-title"><a title = 'points' href = "#">PTS</a></div>
   </div>
   <ul class = 'sortable list-unstyled'>
 
@@ -243,12 +246,12 @@
 
       <div class = 'container' id = 'gamecastTemplatePercentages'>
         <div class = row>
-          <div class="col-md-1 stat-title">number</div>
-          <div class="col-md-1 stat-title">name</div>
-          <div class="col-md-2 stat-title">FG%</div>
-          <div class="col-md-2 stat-title">EFG%</div>
-          <div class="col-md-2 stat-title">TS%</div>
-          <div class="col-md-2 stat-title">FT%</div>
+          <div class="col-md-1 stat-title"><a title = 'player number' href = "#">number</a></div>
+          <div class="col-md-1 stat-title"><a title = 'player name' href = "#">name</a></div>
+          <div class="col-md-2 stat-title"><a title = 'Field Goal Percentage' href = "#">FG%</a></div>
+          <div class="col-md-2 stat-title"><a title = 'Effective Field Goal Percentage: Field Goal Percentage adjusted for the fact that 3 pointers are worth more' href = "#">EFG%</a></div>
+          <div class="col-md-2 stat-title"><a title = 'True Shooting Percentage: Measures a players efficiency at shooting the ball including Field Goal, Three Point, and Free throw attempts' href = "#">TS%</a></div>
+          <div class="col-md-2 stat-title"><a title = 'Free Throw Percentage' href = "#">FT%</a></div>
         </div>
 
       </div>

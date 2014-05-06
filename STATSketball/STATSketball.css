@@ -1,9 +1,68 @@
 /* CSS declarations go here */
+
+/*@blue: #04529C;
+@gold: #FFCC33;*/
 .login-display-name{
-	color: #0088CE;
+	color: #FFCC33;
 }
-.navbar-inverse .brand{
-	color: #0088CE;
+.navbar-default {
+	background-color: #243f90 !important;
+	border-color: #ffcb45 !important;
+}
+.navbar-default .navbar-brand {
+	color: #ffcb45 !important;
+}
+.navbar-default .navbar-brand:hover, .navbar-default .navbar-brand:focus {
+	color: #243f90 !important;
+}
+.navbar-default .navbar-text {
+	color: #ffcb45 !important;
+}
+.navbar-default .navbar-nav > li > a {
+	color: #ffcb45 !important;
+}
+.navbar-default .navbar-nav > li > a:hover, .navbar-default .navbar-nav > li > a:focus {
+	color: #243f90 !important;
+}
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .active > a:hover, .navbar-default .navbar-nav > .active > a:focus {
+	color: #243f90 !important;
+	background-color: #ffcb45 !important;
+}
+.navbar-default .navbar-nav > .open > a, .navbar-default .navbar-nav > .open > a:hover, .navbar-default .navbar-nav > .open > a:focus {
+	color: #243f90 !important;
+	background-color: #ffcb45 !important;
+}
+.navbar-default .navbar-toggle {
+	border-color: #ffcb45 !important;
+}
+.navbar-default .navbar-toggle:hover, .navbar-default .navbar-toggle:focus {
+	background-color: #ffcb45 !important;
+}
+.navbar-default .navbar-toggle .icon-bar {
+	background-color: #ffcb45 !important;
+}
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+	border-color: #ffcb45 !important;
+}
+.navbar-default .navbar-link {
+	color: #ffcb45 !important;
+}
+.navbar-default .navbar-link:hover {
+	color: #243f90 !important;
+}
+
+@media (max-width: 767px) {
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a {
+		color: #ffcb45;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > li > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus {
+		color: #243f90;
+	}
+	.navbar-default .navbar-nav .open .dropdown-menu > .active > a, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:hover, .navbar-default .navbar-nav .open .dropdown-menu > .active > a:focus {
+		color: #243f90;
+		background-color: #ffcb45;
+	}
 }
 .login-button{background-color: white}
  #main {

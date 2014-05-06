@@ -2,9 +2,6 @@
   "packages": {
     "jquery-ui-bootstrap": {},
     "chartjs": {},
-    "cordova": {},
-    "cordova-phonegap": {
-      "git": "https://github.com/awatson1978/cordova-phonegap.git"
-    }
+    "cordova": {}
   }
 }
