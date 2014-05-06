@@ -50,7 +50,7 @@ if (Meteor.isClient) {
     $("#watch-gamecast-navbar").click(function(){
       $(".container").css("display","none");
       $("#upper-nav").css("display", "auto");
-      $("#gamecast").css("display", "block");
+      $("#gamecast").css("display", "auto");
       $(".navbar-option").removeClass("active");
       $("#watch-gamecast-navbar").addClass("active");
     });
@@ -61,14 +61,16 @@ if (Meteor.isClient) {
       $("#new-team-interface").css('display', 'block');
       $(".navbar-option").removeClass("active");
       $("#create-team-navbar").addClass("active");
+      $('#new-player-details').css('display', 'none');
     });
 
 
     var addTeamsToTable = function(){
-      console.log(Teams.find().fetch());
+      console.log(Teams.find({user: Meteor.userId()}).fetch());
 
 
-      var teamChoices = Teams.find({}, function(err, cursor){}).fetch();
+      var teamChoices = Teams.find({}).fetch();
+      console.lof
       
       teamChoices.forEach(function(element,index,array){
         console.log("ran");
@@ -484,7 +486,6 @@ if (Meteor.isClient) {
           text_box_value = $("#gameIdInput").val();
           //$("#gamecast").html("");
           UI.insert(UI.render(Template.gamecast), $("#gamecast")[0]);
-          UI.insert(UI.render(Template.pointChart), $("#gamecast")[0]);
         };
         
       }, 
@@ -521,34 +522,7 @@ if (Meteor.isClient) {
         console.log(this.findAll(".holder").prevObject.length);
         (this.findAll(".holder").prevObject[0]).remove();
         $("#gameIdInput").val(text_box_value);
-        $("#gamecast").append($("#PieChart"));
       }
-
-      function drawChart(){
-        var data = [];
-
-        $(".pts").forEach(function(element,index,array){
-          var pts = element.html();
-          var label = Players.find({_id: element.get(0).id}).fetch()[0].name;
-          var labelFontSize = '16';
-          var color = Math.random().toString(16).substring(2, 8);
-
-          data.push({value: 20, label: "label", color: color});
-        });
-
-        if ($(".pts").length > 0){
-          $(".pts").forEach(function(element, index, array){
-            data.push({value: Math.parseInt(element.html()), color: '#' + Math.random().toString(16).substring(2, 8)});
-             console.log(element.html());
-          });
-        }
-
-        var options = [];
-        var ctx = document.getElementById("PieChart").getContext("2d");
-        new Chart(ctx).Pie(data,options);
-
-      };
-      drawChart();
 
 
     };

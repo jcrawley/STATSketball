@@ -2,30 +2,13 @@
   "meteor": {},
   "dependencies": {
     "basePackages": {
-      "jquery-ui-bootstrap": {},
-      "chartjs": {},
-      "cordova": {}
+      "chartjs": {}
     },
     "packages": {
-      "jquery-ui-bootstrap": {
-        "git": "https://github.com/TimHeckel/meteor-jquery-ui-bootstrap.git",
-        "tag": "v0.1.2",
-        "commit": "fa742a85639307003e105898e15b631394b63509"
-      },
       "chartjs": {
         "git": "https://github.com/donskifarrell/meteor-chartjs.git",
         "tag": "v0.0.4",
         "commit": "9d2adcd1de3728c8227e8eb7da0dcb2e0df21d0b"
-      },
-      "cordova": {
-        "git": "https://github.com/raix/Meteor-cordova.git",
-        "tag": "v0.0.8",
-        "commit": "4eff8b9a853673f5f4b450a0102e78f554836da4"
-      },
-      "jquery-ui": {
-        "git": "https://github.com/TimHeckel/meteor-jquery-ui.git",
-        "tag": "v1.9.2",
-        "commit": "c437d45edcf1367df8d5ffa8bad2867758030bd2"
       }
     }
   }

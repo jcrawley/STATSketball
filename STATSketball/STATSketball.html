@@ -2,22 +2,25 @@
 <head>
   <title>Statsketball</title>
 
-  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+  
 
   <link href="STATSketball.css">
+
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="icon" href="statsketball-ball.png" type="image/png">
     
   <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
  </head>
  
 <body>
 
-  <div class="navbar" background-color ='#FFCC33'>
+  <div class="navbar navbar-inverse" background-color ='#FFCC33'>
  
       <div class="navbar-inner" id = "inner-navbar">
         <div class="container" id= "upper-nav">
           <a class="brand" href="/">Statsketball</a>
           <ul class="nav navbar-nav">
-            <li d = 'start-statsheet-navbar' class='navbar-option'><a href="#" i>Start Statsheet</a></li>
+            <li id = 'start-statsheet-navbar' class='navbar-option'><a href="#" i>Start Statsheet</a></li>
             <li id='watch-gamecast-navbar' class='navbar-option'><a href="#" >Watch Gamecast</a></li>
             <li id='create-team-navbar' class='navbar-option'><a href="#" >Create Team</a></li>
             <li class='navbar-option'><a href="https://github.com/jcrawley/STATSketball" target = "_blank">Fork Us on Github</a></li>
@@ -28,8 +31,10 @@
               {{> loginButtons}}
             </li>
           </ul>
-          
+
         </div>
+          
+        
       </div>
   </div>
 
@@ -65,7 +70,7 @@
   <div id = 'main-menu' class = 'container'>
       <div class="row">
         <div class="jumbotron">
-            <h1>STATSketball</h1>
+            <img src = 'sBfull.png' alt = 'hi'/>
             <p>Start a Statsheet or watch a Gamecast!</p>
         </div>
       </div>
@@ -86,14 +91,13 @@
 
   <div id = 'gamecast' class = 'container'>
       {{> gamecast}}
-       <canvas id="PieChart" height = '400' width = '400'></canvas>
   </div>
 
 
   <div class="container" id = 'not-signed-in'>
     <div class="row">
         <div class="jumbotron">
-            <h1>STATSketball</h1>
+            <div><img src = 'artwork/SBfull.png' alt = ':('/></div>
             <div class="well">
                 <h4>Sign in using Twitter to start keeping stats</h4>
                 {{> loginButtons}}
