@@ -3,6 +3,8 @@ Players = new Meteor.Collection("players");
 Statlines = new Meteor.Collection("statlines");
 Games = new Meteor.Collection("games");
 
+var chosenTeams = [];
+
 
 var pendingPlayers = [];
 if (Meteor.isClient) {
@@ -11,7 +13,8 @@ if (Meteor.isClient) {
       position: {
         my: "bottom",
         at: "center top"
-      }
+      },
+      tooltipClass: "tooltipStyle"
     });
     
    if(Meteor.userId() !== null){
@@ -31,8 +34,7 @@ if (Meteor.isClient) {
     // var btn = $.fn.button.noConflict(); // reverts $.fn.button to jqueryui btn
     // $.fn.btn = btn;
 
-      
-    var chosenTeams = [];
+    
     var alreadyOnTable = [];
 
     $("#start-statsheet-navbar").click(function(){
@@ -42,8 +44,6 @@ if (Meteor.isClient) {
       $("#signed-in").css("display", "auto");
       $(".navbar-option").removeClass("active");
       $("#start-statsheet-navbar").addClass("active");
-
-      addTeamsToTable();
 
     });
 
@@ -63,52 +63,6 @@ if (Meteor.isClient) {
       $("#create-team-navbar").addClass("active");
       $('#new-player-details').css('display', 'none');
     });
-
-
-    var addTeamsToTable = function(){
-      console.log(Teams.find({user: Meteor.userId()}).fetch());
-
-
-      var teamChoices = Teams.find({}).fetch();
-      console.lof
-      
-      teamChoices.forEach(function(element,index,array){
-        console.log("ran");
-        if(alreadyOnTable.indexOf(element._id) === -1 && element.user === Meteor.userId()){
-          $('#teams > tbody:last').append(("<tr class = 'team' id = '" + element["_id"] + "'><td><h3>" + element.name + '</h3></td></tr>'));
-          alreadyOnTable.push(element._id);
-        }
-
-
-      });
-
-        $('.team').click(function(){
-
-          console.log("ran");
-
-          var teamID = $(this).attr('id');
-          var filter = new Object();
-          filter["_id"] = teamID;
-          var team = Teams.find(filter).fetch()[0];
-
-          if(chosenTeams.length < 2 && jQuery.inArray(teamID,chosenTeams) === -1){
-            $("#team-box").prepend("<h2>" + team.name+ "</h2>");
-          
-            chosenTeams.push(teamID);
-          }
-          var buttonThere = false;
-          if(chosenTeams.length == 2){
-            if(!buttonThere){
-              $("#start-statsheet-button").css('display', 'auto');
-              
-              buttonThere = true;
-            }
-          }
-
-        });
-    };
-
-      
 
       $("#new-team").click(function(){
 
@@ -195,7 +149,6 @@ if (Meteor.isClient) {
         $('#new-team-details').css('display', 'auto');
         $('#new-player-details').css('display', 'none');
 
-        addTeamsToTable();
 
         $('.team').click(addClickFunctionality());
 
@@ -428,7 +381,11 @@ if (Meteor.isClient) {
 
       $("#main-menu").css("display", "none");
       $("#signed-in").css("display", "auto");
-      addTeamsToTable();
+
+
+      $(".overflow").css("height", $(window).height() - $('.overflow').offset().top + "px");
+
+      console.log($(window).height() - $('.overflow').offset().top);
 
     });
 
@@ -495,16 +452,32 @@ if (Meteor.isClient) {
 
     });
 
-    Template.removePlayer.player = function(){
-        //console.log(pendingPlayers + " titties");
-        var removePlayerArray = [];
-        pendingPlayers.forEach(function(element){
-          removePlayerArray.push({name: element[0], number: element[1]});
-        });
-        //console.log(removePlayerArray);
-        return removePlayerArray;
+    var buttonThere = false;
 
-    };
+    Template.teams.team = function(){
+      console.log("hi");
+      return Teams.find({user: Meteor.userId()}).fetch();
+    }
+
+    Template.teams.events({
+      'click .team': function(event){
+
+        var team = Teams.find({_id: event.target.id}).fetch()[0];
+        console.log(event.target);
+        if(chosenTeams.length < 2 && jQuery.inArray(team._id,chosenTeams) === -1){
+            $("#team-box").prepend("<h2>" + team.name+ "</h2>");
+            chosenTeams.push(team._id);
+        }
+        
+        if(chosenTeams.length == 2){
+        if(!buttonThere){
+          $("#start-statsheet-button").css('display', 'auto');
+              
+            buttonThere = true;
+          }
+        }
+      }
+    });
 
     Template.loginButtons.events({
       'onclick .login-text-and-button': function(){

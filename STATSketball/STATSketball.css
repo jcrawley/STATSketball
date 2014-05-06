@@ -7,7 +7,8 @@
 }
 .navbar-default {
 	background-color: #e74c3c;
-	border-color: #c0392b;
+	border-color: #04529C;
+	color: #FFCC33;
 }
 .brand, .nav, .navbar-inverse{
 	background-color: #04529C;
@@ -75,8 +76,8 @@ table{
 
 .stat-title{
 	font-size: 16px;
-	color: #0088CE;
-	background-color: black;
+	color: #FFCC33;
+	background-color: #04529C;
 }
 
 .player-stat div{
@@ -91,14 +92,18 @@ table{
 }
 body{
 	background-color: #FFCC33 !important;
-	color: #04529C !important;
+	color: #04529C ;
+}
+
+a{
+	color: #FFCC33 !important;
 }
 
 .jumbotron input{
 	height: 100%;
 	width: 100%;
 	text-align: center;
-	color: #0088CE;
+	color: #FFCC33;
 	font-size: 20px;
 }
 
@@ -111,9 +116,32 @@ body{
 	margin: 3px;
 }
 
-img{
+.main-logo{
 	height: 300px;
 	width: auto;
+}
+
+.sidebar-logo{
+	height: 40px;
+	width: auto;
+}
+
+.tooltipStyle{
+	background-color: #04529C;
+	color: #FFCC33;
+}
+
+.overflow{
+	overflow-y: scroll;
+}
+
+.team{
+	color: #04529C;
+}
+
+.team:hover{
+	color: #FFCC33;
+	background-color: #04529C;
 }
 
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {

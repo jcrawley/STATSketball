@@ -18,7 +18,7 @@
  
       <div class="navbar-inner" id = "inner-navbar">
         <div class="container" id= "upper-nav">
-          <a class="brand" href="/">Statsketball</a>
+          <a class="brand" href="/"><img src = 'statsketball-ball.png' class = 'sidebar-logo' alt = 'hi'/>Statsketball</a>
           <ul class="nav navbar-nav">
             <li id = 'start-statsheet-navbar' class='navbar-option'><a href="#" i>Start Statsheet</a></li>
             <li id='watch-gamecast-navbar' class='navbar-option'><a href="#" >Watch Gamecast</a></li>
@@ -49,11 +49,13 @@
     
 
     <div class = "row">
-      <div class = "col-md-6">
+      <div class = "col-md-6 overflow">
 
         <table class="table-hover" id = 'teams'>
 
         <tr><td><div id = 'new-team' class = "team"><h3> Create a New Team </h3></div></td></tr>
+
+        {{> teams}}
 
         </table>
 
@@ -70,7 +72,7 @@
   <div id = 'main-menu' class = 'container'>
       <div class="row">
         <div class="jumbotron">
-            <img src = 'sBfull.png' alt = 'hi'/>
+            <img src = 'sBfull.png' alt = 'hi' class= "main-logo"/>
             <p>Start a Statsheet or watch a Gamecast!</p>
         </div>
       </div>
@@ -147,7 +149,6 @@
       </div>
 
       <div class = "col-md-6" id="remove-player-option">
-          {{> removePlayer}}
       </div>
 
     </div>
@@ -280,14 +281,10 @@
 
 </template>
 
-<template name = 'removePlayer'>
-  {{#if player}}
-  {{#each player}}
-  
-    <div> <button type="button" class="btn btn-info">Remove</button>{{number}} {{name}} </div>
-  
+<template name = 'teams'>
+  {{#each team}}
+    <tr><td><div class = 'team' ><h3 id = '{{_id}}'> {{name}}</h3> </div></td></tr>
   {{/each}}
-  {{/if}}
 </template>
 
 
