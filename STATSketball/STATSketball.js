@@ -52,7 +52,9 @@ if (Meteor.isClient) {
       $("#team-1-points").html("0");
       $("#team-2-players").empty();
       $("#team-2-points").html("0");
-
+      $("#team-1-players-name").html(" ");
+      $("#team-2-players-name").html(" ");
+      $("#gameIdDisplay").html("");
     });
 
     $("#watch-gamecast-navbar").click(function(){
@@ -289,7 +291,7 @@ if (Meteor.isClient) {
 
             playerLine.push("</li>");
 
-            Statlines.insert({twoPTM: 0, twoPTA: 0, threePTM: 0, threePTA: 0, OREB: 0, FTM: 0, DREB: 0, FTA: 0, AST: 0, TO: 0, STL: 0, BLK: 0, REB: 0, PTS: 0, player: element._id, game: gameId, FGP: 0, EFGP: 0, TSP: 0, FTP: 0});
+            Statlines.insert({twoPTM: 0, twoPTA: 0, threePTM: 0, threePTA: 0, OREB: 0, FTM: 0, DREB: 0, FTA: 0, AST: 0, TO: 0, STL: 0, BLK: 0, REB: 0, PTS: 0, player: element._id, game: gameId, FGP: 0, EFGP: 0, TSP: 0, FTP: 0, GSC: 0, TOP: 0});
 
             
             $("#" + side).append( playerLine.join(" ") );
@@ -355,7 +357,7 @@ if (Meteor.isClient) {
             if(ids[2] === "2PTM"){
               ids[2] = "twoPTM";
               $("#2PTA-value-" + ids[0]).html(parseInt($("#2PTA-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
-              setModifier.$set["twoPTA"] = parseInt($("#2PTA-value-" + ids[0]).html());
+              setModifier.$set["twoPTA"] = parseInt($("#2PTA-value-" + ids[0]).html()) < 0 ? 0 : parseInt($("#2PTA-value-" + ids[0]).html());
             }
             if(ids[2] === "2PTA"){
               ids[2] = "twoPTA";
@@ -366,7 +368,11 @@ if (Meteor.isClient) {
             if(ids[2] === "3PTM"){
               ids[2] = "threePTM";
               $("#3PTA-value-" + ids[0]).html(parseInt($("#3PTA-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
-              setModifier.$set["threePTA"] = parseInt($("#3PTA-value-" + ids[0]).html());
+              setModifier.$set["threePTA"] = parseInt($("#3PTA-value-" + ids[0]).html()) < 0 ? 0 : parseInt($("#3PTA-value-" + ids[0]).html());
+            }
+            if(ids[2] === "FTM"){
+              $("#FTA-value-" + ids[0]).html(parseInt($("#FTM-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
+              setModifier.$set["FTM"] = parseInt($("#FTM-value-" + ids[0]).html()) < 0 ? 0 : parseInt($("#FTM-value-" + ids[0]).html());
             }
 
             
@@ -421,6 +427,9 @@ if (Meteor.isClient) {
       $("#team-1-points").html("0");
       $("#team-2-players").empty();
       $("#team-2-points").html("0");
+      $("#team-1-players-name").html(" ");
+      $("#team-2-players-name").html("");
+      $("#gameIdDisplay").html("");
 
       var overflowHeight = Math.round(($(window).height() - $('.overflow').offset().top) > 100 ? $(window).height() - $('.overflow').offset().top : 100);
 
@@ -433,14 +442,13 @@ if (Meteor.isClient) {
 
     updateAdvancedStatistics = function(id){
       var attrAccess = Statlines.find({_id: id}).fetch()[0];
-      var fieldGoalPercentage = Math.round((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.twoPTA + attrAccess.threePTA) * 1000);
-      var effectiveFieldGoalPercentage = Math.round((((attrAccess.twoPTM) + (1.5 * attrAccess.threePTM))/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000;
-      console.log((attrAccess.twoPTM + (1.5 * attrAccess.threePTM)) + " " + (attrAccess.twoPTM + attrAccess.threePTM));
-      var trueShootingPercentage = Math.round(((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)))*1000)/1000;
-      var freethrowPercentage = Math.round((attrAccess.FTM/attrAccess.FTA) * 1000)/ 1000;
-      var gameScore =  Math.round(attrAccess.PTS + 0.4 * (attrAccess.twoPTM + attrAccess.threePTM) - 0.7 * (attrAccess.threePTA + attrAccess.twoPTA) - 0.4*(attrAccess.FTA - attrAccess.FTM) + 0.7 * attrAccess.OREB + 0.3 *attrAccess.DREB + attrAccess.STL + 0.7 * attrAccess.AST + 0.7 * attrAccess.BLK - attrAccess.TO) *1000;
-      var turnoverPercentage = Math.round(100 * (attrAccess.TO/ (attrAccess.threePTA + attrAccess.twoPTA + .44 * attrAccess.FTA + attrAccess.TO))) * 1000;
-      Statlines.update({_id: id}, {$set : { FGP : (fieldGoalPercentage/1000).toFixed(3), EFGP: (effectiveFieldGoalPercentage).toFixed(3) , TSP: (trueShootingPercentage).toFixed(3), FTP: (freethrowPercentage).toFixed(3), GSC: gameScore/1000, TOP: (turnoverPercentage/1000).toFixed(3)} });
+      var fieldGoalPercentage = (attrAccess.twoPTA + attrAccess.threePTA) === 0 ? 0 : ((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.twoPTA + attrAccess.threePTA));
+      var effectiveFieldGoalPercentage = (attrAccess.twoPTA + attrAccess.threePTA) === 0 ? 0 : ((((attrAccess.twoPTM) + (1.5 * attrAccess.threePTM))/(attrAccess.threePTA + attrAccess.twoPTA)));
+      var trueShootingPercentage = (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)) === 0 ? "-" : (((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA))));
+      var freethrowPercentage = attrAccess.FTA === 0 ? 0 : ((attrAccess.FTM/attrAccess.FTA) );
+      var gameScore =  (attrAccess.PTS + 0.4 * (attrAccess.twoPTM + attrAccess.threePTM) - 0.7 * (attrAccess.threePTA + attrAccess.twoPTA) - 0.4*(attrAccess.FTA - attrAccess.FTM) + 0.7 * attrAccess.OREB + 0.3 *attrAccess.DREB + attrAccess.STL + 0.7 * attrAccess.AST + 0.7 * attrAccess.BLK - attrAccess.TO);
+      var turnoverPercentage = (100 * (attrAccess.TO/ (attrAccess.threePTA + attrAccess.twoPTA + .44 * attrAccess.FTA + attrAccess.TO)));
+      Statlines.update({_id: id}, {$set : { FGP : (fieldGoalPercentage).toFixed(3), EFGP: (effectiveFieldGoalPercentage).toFixed(3) , TSP: (trueShootingPercentage).toFixed(3), FTP: (freethrowPercentage).toFixed(3), GSC: gameScore.toFixed(3), TOP: (turnoverPercentage).toFixed(3)} });
 
     };
 
