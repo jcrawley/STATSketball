@@ -1,5 +1,5 @@
 div{
-  height: 500px;
+  height: 600px;
   width: 800px;
 
   text-align: center;
@@ -23,8 +23,8 @@ body{
 }
 
 .jumbotron{
-  background-color: #0088CE;
-  color: black;
+  background-color: #04529C;
+  color: #FFCC33;
 }
 
 #status{
@@ -37,3 +37,12 @@ body{
   padding: 5px;
 }
 
+.screenshot{
+  width: 600px;
+  height: auto;
+}
+
+#explanation{
+  width: 300px;
+  height: auto;
+}
