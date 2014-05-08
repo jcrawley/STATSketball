@@ -1,13 +1,35 @@
 /* CSS declarations go here */
+
+/*@blue: #04529C;
+@gold: #FFCC33;*/
 .login-display-name{
-	color: #0088CE;
+	color: #FFCC33;
 }
-.navbar-inverse .brand{
-	color: #0088CE;
+.navbar-default {
+	background-color: #e74c3c;
+	border-color: #04529C;
+	color: #FFCC33;
+}
+.brand, .nav, .navbar-inverse{
+	background-color: #04529C;
 }
 .login-button{background-color: white}
  #main {
     padding-top:20px;
+}
+.navbar-option{
+	color: #FFCC33 !important;
+}
+
+#inner-navbar{
+	background-image: none !important;
+	background-color: #04529C !important;
+	border-color: #04529C !important;
+}
+
+navbar-inverse .navbar-nav>.activated>a{
+	color: #04529C !important;
+	background-color: #FFCC33 !important;
 }
 
 div{
@@ -31,11 +53,17 @@ table{
 	padding: 5px;
 }
 .new-team-choice:hover{
-	background-color: orange;
+	color: #FFCC33;
+	background-color: #04529C;
 }
 #new-team-details{
 	/*display: none;*/
 
+}
+
+.main-menu-item:hover{
+	color: #FFCC33;
+	background-color: #04529C;
 }
 
 #start-statsheet-button{
@@ -48,8 +76,8 @@ table{
 
 .stat-title{
 	font-size: 16px;
-	color: #0088CE;
-	background-color: black;
+	color: #FFCC33;
+	background-color: #04529C;
 }
 
 .player-stat div{
@@ -59,29 +87,71 @@ table{
 	display: block;
 }
 .container .jumbotron{
-	background-color: black;
-	color: #0088CE;
+	background-color: #04529C;
+	color: #FFCC33;
+}
+.container .jumbotron h4{
+	color: #04529C;
 }
 body{
-	background-color: #FFFDD0 !important;
+	background-color: #FFCC33 !important;
+	color: #04529C ;
 }
-.main-menu-item:hover{
-	
-	color: #0088CE;
-	background-color: black;
+
+.col-md-1 a, .col-md-2 a{
+	color: #FFCC33 ;
 }
 
 .jumbotron input{
 	height: 100%;
 	width: 100%;
 	text-align: center;
-	color: #0088CE;
+	color: #FFCC33;
 	font-size: 20px;
 }
 
 #new-statsheet{
 	display: none;
 }
+
+.navbar-option{
+	font-size: 16px;
+	margin: 3px;
+}
+
+.main-logo{
+	height: 300px;
+	width: auto;
+}
+
+.sidebar-logo{
+	height: 40px;
+	width: auto;
+}
+
+.tooltipStyle{
+	background-color: #04529C;
+	color: #FFCC33;
+	width: 20%;
+}
+
+.overflow{
+	overflow-y: scroll;
+}
+
+.team{
+	color: #04529C;
+}
+
+.team:hover{
+	color: #FFCC33;
+	background-color: #04529C;
+}
+
+.stat-category a{
+	color: #04529C;
+}
+
 
 
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {

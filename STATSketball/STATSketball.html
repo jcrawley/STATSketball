@@ -1,25 +1,40 @@
 
 <head>
   <title>Statsketball</title>
+
+  
+
+  <link href="STATSketball.css">
+
   <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet">
-    <link href="STATSketball.css">
+  <link rel="icon" href="statsketball-ball.png" type="image/png">
+    
   <script src="http://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
  </head>
  
 <body>
 
-  <div class="navbar navbar-static-top navbar-inverse">
+  <div class="navbar navbar-inverse" background-color ='#FFCC33'>
  
-      <div class="navbar-inner">
-        <div class="container">
-          <a class="brand" href="/">Statsketball</a>
+      <div class="navbar-inner" id = "inner-navbar">
+        <div class="container" id= "upper-nav">
+          <a class="brand" href="/"><img src = 'statsketball-ball.png' class = 'sidebar-logo' alt = 'hi'/>Statsketball</a>
+          <ul class="nav navbar-nav">
+            <li id = 'start-statsheet-navbar' class='navbar-option'><a href="#" i>Start Statsheet</a></li>
+            <li id='watch-gamecast-navbar' class='navbar-option'><a href="#" >Watch Gamecast</a></li>
+            <li id='create-team-navbar' class='navbar-option'><a href="#" >Create Team</a></li>
+            <li class='navbar-option'><a href="https://github.com/jcrawley/STATSketball" target = "_blank">Fork Us on Github</a></li>
+          </ul>
+
           <ul class="nav pull-right">
             <li>
               {{> loginButtons}}
             </li>
           </ul>
-          
+
         </div>
+          
+        
       </div>
   </div>
 
@@ -34,11 +49,13 @@
     
 
     <div class = "row">
-      <div class = "col-md-6">
+      <div class = "col-md-6 overflow">
 
         <table class="table-hover" id = 'teams'>
 
         <tr><td><div id = 'new-team' class = "team"><h3> Create a New Team </h3></div></td></tr>
+
+        {{> teams}}
 
         </table>
 
@@ -55,7 +72,7 @@
   <div id = 'main-menu' class = 'container'>
       <div class="row">
         <div class="jumbotron">
-            <h1>STATSketball</h1>
+            <img src = 'sBfull.png' alt = 'hi' class= "main-logo"/>
             <p>Start a Statsheet or watch a Gamecast!</p>
         </div>
       </div>
@@ -82,9 +99,9 @@
   <div class="container" id = 'not-signed-in'>
     <div class="row">
         <div class="jumbotron">
-            <h1>STATSketball</h1>
+            <div><img src = 'sBfull.png' alt = 'hi' class= "main-logo"/></div>
             <div class="well">
-                <h4>Sign in using Twitter to start keeping stats</h4>
+                <h4>Sign in using Twitter to start keeping stats. Once you log in, refresh the page</h4>
                 {{> loginButtons}}
             </div>
         </div>
@@ -132,7 +149,6 @@
       </div>
 
       <div class = "col-md-6" id="remove-player-option">
-          {{> removePlayer}}
       </div>
 
     </div>
@@ -164,6 +180,7 @@
 
   </div>
 
+
     
 
 
@@ -178,7 +195,8 @@
         <div class="row">
             <div class="span6">
                 <div class="well">
-                    <h4>Sign in Using Twitter to Use STATSketball</h4>
+                    <h4>Sign in Using Twitter to Use STATSketball!</h4>
+                    <p>Once you sign in, refresh the page</p>
                     {{> loginButtons}}
                 </div>
             </div>
@@ -198,18 +216,18 @@
 
   <div class = 'container' id = 'gamecastTemplate'>
     <div class = row>
-    <div class="col-md-1 stat-title">number</div>
-    <div class="col-md-1 stat-title">name</div>
-    <div class="col-md-1 stat-title">2PTM</div>
-    <div class="col-md-1 stat-title">2PTA</div>
-    <div class="col-md-1 stat-title">3PTM</div>
-    <div class="col-md-1 stat-title">3PTA</div>
-    <div class="col-md-1 stat-title">STL</div>
-    <div class="col-md-1 stat-title">BLK</div>
-    <div class="col-md-1 stat-title">TO</div>
-    <div class="col-md-1 stat-title">AST</div>
-    <div class="col-md-1 stat-title">REB</div>
-    <div class="col-md-1 stat-title">PTS</div>
+    <div class="col-md-1 stat-title"><a title = 'player number' href = "#">number</a></div>
+    <div class="col-md-1 stat-title"><a title = 'player name' href = "#">name</a></div>
+    <div class="col-md-1 stat-title"><a title = 'two point baskets made' href = "#">2PTM</a></div>
+    <div class="col-md-1 stat-title"><a title = 'two point baskets attempted' href = "#">2PTA</a></div>
+    <div class="col-md-1 stat-title"><a title = 'three point baskets made' href = "#">3PTM</a></div>
+    <div class="col-md-1 stat-title"><a title = 'three point baskets attempted' href = "#">3PTA</a></div>
+    <div class="col-md-1 stat-title"><a title = 'steals' href = "#">STL</a></div>
+    <div class="col-md-1 stat-title"><a title = 'blocks' href = "#">BLK</a></div>
+    <div class="col-md-1 stat-title"><a title = 'turnovers' href = "#">TO</a></div>
+    <div class="col-md-1 stat-title"><a title = 'assists' href = "#">AST</a></div>
+    <div class="col-md-1 stat-title"><a title = 'rebounds' href = "#">REB</a></div>
+    <div class="col-md-1 stat-title"><a title = 'points' href = "#">PTS</a></div>
   </div>
   <ul class = 'sortable list-unstyled'>
 
@@ -232,50 +250,122 @@
             </div></li>
         </div>
       {{/each}}
+    </ul>
 
       <div class = 'container' id = 'gamecastTemplatePercentages'>
         <div class = row>
-          <div class="col-md-1 stat-title">number</div>
-          <div class="col-md-1 stat-title">name</div>
-          <div class="col-md-2 stat-title">FG%</div>
-          <div class="col-md-2 stat-title">EFG%</div>
-          <div class="col-md-2 stat-title">TS%</div>
-          <div class="col-md-2 stat-title">FT%</div>
+          <div class="col-md-1 stat-title"><a title = 'player number' href = "#">number</a></div>
+          <div class="col-md-1 stat-title"><a title = 'player name' href = "#">name</a></div>
+          <div class="col-md-1 stat-title"><a title = 'Field Goal Percentage' href = "#">FG%</a></div>
+          <div class="col-md-1 stat-title"><a title = 'Estimated Turnovers per 100 possesions' href = "#">TO%</a></div>
+          <div class="col-md-2 stat-title"><a title = 'Effective Field Goal Percentage: Field Goal Percentage adjusted for the fact that 3 pointers are worth more' href = "#">EFG%</a></div>
+          <div class="col-md-2 stat-title"><a title = 'True Shooting Percentage: Measures a players efficiency at shooting the ball including Field Goal, Three Point, and Free throw attempts' href = "#">TS%</a></div>
+          <div class="col-md-2 stat-title"><a title = 'Free Throw Percentage' href = "#">FT%</a></div>
+          <div class="col-md-2 stat-title"><a title = "Game Score:  a rough measure of a player's productivity for a single game. The scale is similar to that of points scored, (40 is an outstanding performance, 10 is an average performance, etc.)." href = "#">Gscore</a></div>
         </div>
 
       </div>
 
       {{#each statsheet}}
         <div class = 'gamecastStatline' id = "gamecastStatline-{{_id}}-Percentages">
+          <ul class = 'sortable list-unstyled'>
             <li><div class = row>
               <div class="col-md-1">{{playerNumber}}</div>
               <div class="col-md-1">{{playerName}}</div>
-              <div class="col-md-2">{{FGP}}</div>
+              <div class="col-md-1">{{FGP}}</div>
+              <div class="col-md-1">{{TOP}}</div>
               <div class="col-md-2">{{EFGP}}</div>
               <div class="col-md-2">{{TSP}}</div>
               <div class="col-md-2">{{FTP}}</div>
+              <div class="col-md-2">{{GSC}}</div>
             </div></li>
+          </ul>
         </div>
       {{/each}}
-
-      
-       <canvas class="PieChart" height = '400' width = '400'></canvas>
-
-   </ul>
   </div>
 </div>
   
 
 </template>
 
-<template name = 'removePlayer'>
-  {{#if player}}
-  {{#each player}}
-  
-    <div> <button type="button" class="btn btn-info">Remove</button>{{number}} {{name}} </div>
-  
+<template name = 'teams'>
+  {{#each team}}
+    <tr><td><div class = 'team' ><h3 id = '{{_id}}'> {{name}}</h3> </div></td></tr>
   {{/each}}
-  {{/if}}
 </template>
 
+<!-- <template name = 'statsheet'>
+  <div class = "row">
+      <div class = "col-md-6">
+        <div id = 'team-1-players-name'></div>
+        <h3> {{team1name}} </h3>
+        <ul class = 'sortable list-unstyled' id = 'team-1-players'>
+          {{#each team1player}}
+          <li class = 'player-stat'> 
+            <div class='row'>
+              <div class='col-md-2'><h4>{{number}}</h4>{{name}}</div>
+            </div>
+            <div class='col-md-1'>
+              <div class = 'stat-category'>2PTM</div>
+              <div class = 'stat-category'>2PTA</div>
+              <div class = 'stat-category'>OREB</div>
+              <div class = 'stat-category'>DREB</div>
+              <div class = 'stat-category'>AST</div>
+              <div class = 'stat-category'>STL</div>
+              <div class = 'stat-category'>REB</div>
+            </div>
+
+            <div class='col-md-3'>
+              <div>
+                 <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-2PTM'>+</button>
+                <span id = '2PTM-value-{{_id}}' class = 'stat-count'>0</span>
+                <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-2PTM'>-</button>
+              </div>
+
+              <div>
+                <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-2PTA'>+</button>
+                <span id = '2PTA-value-{{_id}}' class = 'stat-count'>0</span>
+                <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-2PTA'>-</button>
+              </div>
+              
+
+              <div>
+                <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-OREB'>+</button>
+                <span id = 'OREB-value-{{_id}}' class = 'stat-count'>0</span>
+                <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-OREB'>-</button>
+              </div>
+              
+              <div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-DREB'>+</button>
+              <span id = 'DREB-value-{{_id}}' class = 'stat-count'>0</span>
+              <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-DREB'>-</button></div>
+
+              <div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-AST'>+</button>
+              <span id = 'AST-value-{{_id}}' class = 'stat-count'>0</span>
+              <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-AST'>-</button></div>
+
+              <div> <button type='button' class='counter plus-points btn btn-primary btn-xs' id = '{{_id}}-plus-STL'>+</button>
+              <span id = 'STL-value-{{_id}}' class = 'stat-count'>0</span>
+              <button type='button' class='counter minus-points btn btn-primary btn-xs' id = '{{_id}}-minus-STL'>-</button></div>
+
+              <div> <span id = 'REB-value-{{_id}}' class = 'stat-count'>0</span> </div>
+            
+
+            </div>
+
+        </ul>
+          
+
+      </div>
+      <div class = "col-md-6">
+        <div id = 'team-2-players-name'></div>
+        <ul class = 'sortable list-unstyled' id = 'team-2-players'>
+
+        </ul>
+
+      </div>
+    </div>
+
+
+</template>
+ -->
 
