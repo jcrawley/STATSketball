@@ -3,21 +3,15 @@ Players = new Meteor.Collection("players");
 Statlines = new Meteor.Collection("statlines");
 Games = new Meteor.Collection("games");
 
+var updateAdvancedStatistics;
+
 var chosenTeams = [];
 
 
 var pendingPlayers = [];
 if (Meteor.isClient) {
   Meteor.startup(function(){
-    $(".col-md-1").tooltip({
-      position: {
-        my: "bottom",
-        at: "center top"
-      },
-      tooltipClass: "tooltipStyle"
-    });
-
-    $(".col-md-2").tooltip({
+    $(document).tooltip({
       position: {
         my: "bottom",
         at: "center top"
@@ -34,6 +28,8 @@ if (Meteor.isClient) {
       $("#signed-in").css("display", "none");
       $("#not-signed-in").css("display", "auto");
       $("#main-menu").css("display", "none");
+      $("#start-statsheet-navbar").css("display", "none");
+      $("#create-team-navbar").css("display", "none");
     }
     $("#new-team-interface").css('display', 'none');
     $("#start-statsheet-button").css('display', 'none');
@@ -52,6 +48,10 @@ if (Meteor.isClient) {
       $("#signed-in").css("display", "auto");
       $(".navbar-option").removeClass("activated");
       $("#start-statsheet-navbar").addClass("activated");
+      $("#team-1-players").empty();
+      $("#team-1-points").html("0");
+      $("#team-2-players").empty();
+      $("#team-2-points").html("0");
 
     });
 
@@ -174,6 +174,8 @@ if (Meteor.isClient) {
         $("#new-statsheet").css("display", "block");
         var team1 = Teams.find({_id:chosenTeams[0]}).fetch()[0];
         var team2 = Teams.find({_id:chosenTeams[1]}).fetch()[0];
+
+
 
         var gameId = Games.insert({team1: chosenTeams[0], team2: chosenTeams[1]});
 
@@ -348,8 +350,12 @@ if (Meteor.isClient) {
 
             var newValue = parseInt($("#" + ids[2] + "-value-" + ids[0]).html());
 
+            var setModifier = { $set: {} };
+
             if(ids[2] === "2PTM"){
               ids[2] = "twoPTM";
+              $("#2PTA-value-" + ids[0]).html(parseInt($("#2PTA-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
+              setModifier.$set["twoPTA"] = parseInt($("#2PTA-value-" + ids[0]).html());
             }
             if(ids[2] === "2PTA"){
               ids[2] = "twoPTA";
@@ -359,9 +365,11 @@ if (Meteor.isClient) {
             }
             if(ids[2] === "3PTM"){
               ids[2] = "threePTM";
+              $("#3PTA-value-" + ids[0]).html(parseInt($("#3PTA-value-" + ids[0]).html()) + (ids[1] === "plus" ? 1 : -1));
+              setModifier.$set["threePTA"] = parseInt($("#3PTA-value-" + ids[0]).html());
             }
 
-            var setModifier = { $set: {} };
+            
             setModifier.$set[ids[2]] = newValue;
             if(updatePoints){
               setModifier.$set["PTS"] = parseInt($("#" + "PTS" + "-value-" + ids[0]).html());
@@ -371,15 +379,26 @@ if (Meteor.isClient) {
               setModifier.$set["REB"] = parseInt($("#" + "REB" + "-value-" + ids[0]).html());
             }
 
+            console.log(setModifier);
+
             Statlines.update({_id: statlineId}, setModifier);
 
             updateAdvancedStatistics(statlineId);
 
             //console.log(Statlines.find({game: gameId, player: targetID}).fetch());
+            
 
 
 
         });
+
+            chosenTeams.length = 0;
+            $("#team-box").empty();
+
+            $("#start-statsheet-button").css("display", "none");
+            buttonThere = false;
+
+            console.log(chosenTeams);
 
 
 
@@ -398,7 +417,12 @@ if (Meteor.isClient) {
       $("#main-menu").css("display", "none");
       $("#signed-in").css("display", "auto");
 
-      var overflowHeight = ($(window).height() - $('.overflow').offset().top) > 100 ? $(window).height() - $('.overflow').offset().top : 100;
+      $("#team-1-players").empty();
+      $("#team-1-points").html("0");
+      $("#team-2-players").empty();
+      $("#team-2-points").html("0");
+
+      var overflowHeight = Math.round(($(window).height() - $('.overflow').offset().top) > 100 ? $(window).height() - $('.overflow').offset().top : 100);
 
 
       $(".overflow").css("height", overflowHeight + "px");
@@ -407,15 +431,16 @@ if (Meteor.isClient) {
 
     });
 
-    var updateAdvancedStatistics = function(id){
+    updateAdvancedStatistics = function(id){
       var attrAccess = Statlines.find({_id: id}).fetch()[0];
-      var fieldGoalPercentage = Math.round(((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000;
+      var fieldGoalPercentage = Math.round((attrAccess.twoPTM + attrAccess.threePTM)/(attrAccess.twoPTA + attrAccess.threePTA) * 1000);
       var effectiveFieldGoalPercentage = Math.round((((attrAccess.twoPTM) + (1.5 * attrAccess.threePTM))/(attrAccess.threePTA + attrAccess.twoPTA))*1000)/1000;
       console.log((attrAccess.twoPTM + (1.5 * attrAccess.threePTM)) + " " + (attrAccess.twoPTM + attrAccess.threePTM));
       var trueShootingPercentage = Math.round(((attrAccess.PTS)/ (2 * ((attrAccess.threePTA + attrAccess.twoPTA) + .475 * attrAccess.FTA)))*1000)/1000;
       var freethrowPercentage = Math.round((attrAccess.FTM/attrAccess.FTA) * 1000)/ 1000;
-      var gameScore = attrAccess.PTS + .7 * (attrAccess.twoPTM + attrAccess.threePTM)
-      Statlines.update({_id: id}, {$set : { FGP : fieldGoalPercentage, EFGP: effectiveFieldGoalPercentage , TSP: trueShootingPercentage, FTP: freethrowPercentage} });
+      var gameScore =  Math.round(attrAccess.PTS + 0.4 * (attrAccess.twoPTM + attrAccess.threePTM) - 0.7 * (attrAccess.threePTA + attrAccess.twoPTA) - 0.4*(attrAccess.FTA - attrAccess.FTM) + 0.7 * attrAccess.OREB + 0.3 *attrAccess.DREB + attrAccess.STL + 0.7 * attrAccess.AST + 0.7 * attrAccess.BLK - attrAccess.TO) *1000;
+      var turnoverPercentage = Math.round(100 * (attrAccess.TO/ (attrAccess.threePTA + attrAccess.twoPTA + .44 * attrAccess.FTA + attrAccess.TO))) * 1000;
+      Statlines.update({_id: id}, {$set : { FGP : (fieldGoalPercentage/1000).toFixed(3), EFGP: (effectiveFieldGoalPercentage).toFixed(3) , TSP: (trueShootingPercentage).toFixed(3), FTP: (freethrowPercentage).toFixed(3), GSC: gameScore/1000, TOP: (turnoverPercentage/1000).toFixed(3)} });
 
     };
 
@@ -570,6 +595,7 @@ if (Meteor.isServer) {
         /* user and doc checks ,
         return true to allow insert */
         return true; 
+
       }
     });
 

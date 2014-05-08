@@ -99,9 +99,9 @@
   <div class="container" id = 'not-signed-in'>
     <div class="row">
         <div class="jumbotron">
-            <div><img src = 'artwork/SBfull.png' alt = ':('/></div>
+            <div><img src = 'sBfull.png' alt = 'hi' class= "main-logo"/></div>
             <div class="well">
-                <h4>Sign in using Twitter to start keeping stats</h4>
+                <h4>Sign in using Twitter to start keeping stats. Once you log in, refresh the page</h4>
                 {{> loginButtons}}
             </div>
         </div>
@@ -195,7 +195,8 @@
         <div class="row">
             <div class="span6">
                 <div class="well">
-                    <h4>Sign in Using Twitter to Use STATSketball</h4>
+                    <h4>Sign in Using Twitter to Use STATSketball!</h4>
+                    <p>Once you sign in, refresh the page</p>
                     {{> loginButtons}}
                 </div>
             </div>
@@ -249,33 +250,38 @@
             </div></li>
         </div>
       {{/each}}
+    </ul>
 
       <div class = 'container' id = 'gamecastTemplatePercentages'>
         <div class = row>
           <div class="col-md-1 stat-title"><a title = 'player number' href = "#">number</a></div>
           <div class="col-md-1 stat-title"><a title = 'player name' href = "#">name</a></div>
-          <div class="col-md-2 stat-title"><a title = 'Field Goal Percentage' href = "#">FG%</a></div>
+          <div class="col-md-1 stat-title"><a title = 'Field Goal Percentage' href = "#">FG%</a></div>
+          <div class="col-md-1 stat-title"><a title = 'Estimated Turnovers per 100 possesions' href = "#">TO%</a></div>
           <div class="col-md-2 stat-title"><a title = 'Effective Field Goal Percentage: Field Goal Percentage adjusted for the fact that 3 pointers are worth more' href = "#">EFG%</a></div>
           <div class="col-md-2 stat-title"><a title = 'True Shooting Percentage: Measures a players efficiency at shooting the ball including Field Goal, Three Point, and Free throw attempts' href = "#">TS%</a></div>
           <div class="col-md-2 stat-title"><a title = 'Free Throw Percentage' href = "#">FT%</a></div>
+          <div class="col-md-2 stat-title"><a title = "Game Score:  a rough measure of a player's productivity for a single game. The scale is similar to that of points scored, (40 is an outstanding performance, 10 is an average performance, etc.)." href = "#">Gscore</a></div>
         </div>
 
       </div>
 
       {{#each statsheet}}
         <div class = 'gamecastStatline' id = "gamecastStatline-{{_id}}-Percentages">
+          <ul class = 'sortable list-unstyled'>
             <li><div class = row>
               <div class="col-md-1">{{playerNumber}}</div>
               <div class="col-md-1">{{playerName}}</div>
-              <div class="col-md-2">{{FGP}}</div>
+              <div class="col-md-1">{{FGP}}</div>
+              <div class="col-md-1">{{TOP}}</div>
               <div class="col-md-2">{{EFGP}}</div>
               <div class="col-md-2">{{TSP}}</div>
               <div class="col-md-2">{{FTP}}</div>
+              <div class="col-md-2">{{GSC}}</div>
             </div></li>
+          </ul>
         </div>
       {{/each}}
-
-   </ul>
   </div>
 </div>
   

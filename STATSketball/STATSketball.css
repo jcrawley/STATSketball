@@ -90,6 +90,9 @@ table{
 	background-color: #04529C;
 	color: #FFCC33;
 }
+.container .jumbotron h4{
+	color: #04529C;
+}
 body{
 	background-color: #FFCC33 !important;
 	color: #04529C ;
@@ -148,6 +151,8 @@ body{
 .stat-category a{
 	color: #04529C;
 }
+
+
 
 /*.table-hover tbody tr:hover, .table-hover tbody tr:hover {
   background-color: #0088CE;
